@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../global/global_header.css" />
+  <!-- <link rel="stylesheet" href="./styles.css" /> -->
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+</head>
+
+<body>
+
+  <header>
+    <div class = "filler"></div>
+    <div id = "global_h" class = "global_header"> 
+      <div class = "header_left">
+        <h1 class = "header_title" onclick="window.location.href='../index.html';">Noduro Open Beta 1.0</h1>
+      </div>
+      <div class = "header_right">
+        <button class = "navigation_button" onclick="window.location.href='../index.html';">Home</button>
+        <button class = "navigation_button" onclick="window.location.href='../technology/tech.html';">Technology</button>
+        <button class = "navigation_button" onclick="window.location.href='../settings/settings.html';">Settings</button>
+        <button class = "navigation_button" onclick="window.location.href='../login/login.html';">Login</button>
+
+      </div>
+    </div>
+    <script>
+        const element = document.getElementById('global_h');
+        element.style.height = `${Math.ceil(element.offsetHeight)}px`;
+    </script>
+  </header>
+  <!-- <div class="filler"></div>
+  <div id = "page_header" class="page_header">
+    <div class="header_left">
+      <h1>Noduro Open Beta 1.0.0</h1>
+    </div>
+    <div class="header_right">
+      <button class="header_nav_button"><a class="header_nav_links">Home</a></button>
+      <button class="header_nav_button"><a class="header_nav_links" href=./technology/tech.html>Technology</a></button>
+      <button class="header_nav_button"><a class="header_nav_links" href=./settings/settings.html>Settings</a></button>
+      <button class="header_nav_button"><a class="header_nav_links" href=./login/login.html>Login</a></button>
+  
+    </div>
+  </div>
+ -->
+  <!-- <div class="welcome_div">
+    <h1 class = "welcome_div_items" id="welcome">Welcome to Noduro</h1>
+    <p class = "welcome_div_items" id="sign_in">Sign in to Noduro to access your account</p>
+  </div>
+  <div class = "recommended">
+  <h1> Recommended for you</h1>
+  <div class="scrolling-div" id = "scrolling-div"> 
+  </div>
+  </div>
+  <script src="renderer.js"></script>
+  <script src="slidebar.js"></script> -->
+
+</body>
+
+</html>

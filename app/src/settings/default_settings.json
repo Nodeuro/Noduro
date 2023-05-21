@@ -1,0 +1,23 @@
+{
+    "visual" : {
+        "theme": "System"
+    },
+    "video" : {
+        "resolution" : [1920, 1080],
+        "flipVideo" : true,
+        "lowLight" : 5,
+        "autofocus": true
+    },
+    "audio" : {
+        "master_volume" : 100,
+        "sound_effects_volume" : 70,
+        "teacher_volume" : 60,
+        "urgent_volume" : 50
+    },
+    "privacy" : {
+        "record_audio": true,
+        "record_video": true,
+        "local_storage": true,
+        "anonymize_data": true
+    }
+}

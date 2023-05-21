@@ -1,0 +1,286 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap");
+@media (prefers-color-scheme: light) {
+  :root{
+  --background: #f5e9d0;
+  --background_fade: #72664a;
+  --main_div_text_color: #000000;
+  --main_div_link_color: rgba(57, 57, 57,1);
+  --scrolling : linear-gradient(0deg, #aaa08a, #aa9c7c );
+  --statistics-bg: rgb(153, 141, 109);
+  --box-bg: #f6f1e4;
+  --box-text-color: #3b3527;
+  }
+  }
+
+@media (prefers-color-scheme: dark) {
+  :root{
+    --background: #2f2c26;
+    --background_fade: #94825e;
+    --main_div_text_color: #f5e9d0;
+    --main_div_link_color: #d7d7d7;
+    --scrolling : linear-gradient(0deg, #2f2c26, #665f4e);
+    --statistics-bg: rgb(153, 141, 109);
+    --box-bg: #f6f1e4;
+    --box-text-color: #2f2c26;
+
+
+  }
+  
+}
+:root{
+  --vid_height: 20vh;
+  --scrolling-margin: 10rem;
+  --box-margin: 1vw;
+  --recommendation-margin: 1.2vw;
+  --recomendation-width: 95vw; /* 2rem is from box margin */
+} 
+html, body {
+  margin: 0;
+  background: var(--background);
+  overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  transition: all 1s ease;
+}
+
+
+/* Define the animation */
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Apply the animation to the text element */
+
+.welcome_div {
+  display: flex;
+  width:100%;
+  position: relative;
+  flex-flow: column nowrap;
+  justify-content: center;
+  /* left padding 2rem, right padding 2rem, bottom padding 2rem, top padding 0rem */
+  padding: auto 2rem 2rem 2rem;
+  font-size: 60px;
+  height: 90vh;
+  color: var(--main_div_text_color);
+  background-color: var(--background);
+  margin: 0;
+  transition: all linear 1s;
+}
+.welcome_div .items{
+  margin: 0rem;
+  padding: 0rem 0rem 0rem 2rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  transition: opacity 0.5s ease-out;
+
+
+}
+.animation{
+  opacity: 0;
+  animation-name: appear;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+
+}
+.welcome_div .sign_in_link{
+  color: var(--main_div_link_color);
+  transition: all linear 200ms;
+  text-decoration: underline 0.1em rgba(0,0,0,0);
+
+}
+.welcome_div .sign_in_link:hover{
+  text-decoration-color: var(--main_div_link_color);
+  color: var(--main_div_text_color);
+  transition: all ease 400ms;
+
+
+}
+
+
+.boxes{
+  display: flex;
+  flex-flow: row wrap;
+  padding: 2vw;
+  background: linear-gradient(180deg, var(--background) 0%, var(--background_fade) 100%);
+}
+.boxes .box{
+  border-radius: 1vw;
+  margin: var(--box-margin);
+  display: flex;
+  justify-content: center;
+  flex-flow: column nowrap;
+  background: var(--box-bg);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+.box *{
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+
+.recommended{
+  width: var(--recomendation-width);
+  text-transform: capitalize;
+  background: var(--scrolling);
+  font-size: 1rem;
+  font-family: "Poppins", sans-serif;
+  font-weight:600;
+  padding-top: 1.25vw;
+  padding-bottom: 0;
+  height: auto;
+}
+.recommended .text {
+  margin: 0;
+  padding: 1.25vw 0 1.25vw 2.5vw;
+  height: fit-content;
+  transition: padding 2s ease;
+  
+}
+
+.text-opened {
+  padding: 1.25vw 0 1.25vw var(--recommendation-margin);
+}
+
+
+
+
+.recommended .scrolling-wrapper{
+  margin: 0;
+  background: none;
+  font-size: 3rem;
+  position: relative;
+  padding: 0 0 3vh 0;
+}
+
+.scrolling-wrapper .left{
+  width: var(--scrolling-margin);
+  top: 0;
+  height: var(--vid_height);
+  background-size: cover;
+  position: absolute;
+  left: var(--recommendation-margin);
+  border-radius: 2vh;
+  right: auto;
+  background-image: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.55) 15%, rgba(0,0,0,0.35) 30%, rgba(0,0,0,0.2) 45%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0) 100%);
+}
+.recommended .scrolling-wrapper .right{
+  width: var(--scrolling-margin);
+  top: 0;
+  height: var(--vid_height);
+  background-size: cover;
+  position: absolute;
+  left: auto;
+  right: var(--recommendation-margin);
+  border-radius: 2vh;
+  background-image: linear-gradient(270deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.55) 15%, rgba(0,0,0,0.35) 30%, rgba(0,0,0,0.2) 45%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0) 100%);
+
+}
+.scrolling-wrapper .before{
+  opacity: 0;
+  transition: opacity 1s ease;
+  transition-delay: 0.5s;
+
+}
+.scrolling-wrapper .box_appear{
+  transition: opacity 1s ease;
+  transition-delay: 0.5s;
+  opacity: 1;
+}
+
+
+.recommended .scrolling-div{
+  background-attachment: scroll;   
+  width: auto;
+  height: var(--vid_height);
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  scroll-margin-inline-start: 0;
+  grid-template-columns: repeat(5, auto);
+  margin-right: 2.75vw;
+  margin-left: 2.75vw;
+  transition: margin 2s ease, border-radius 2s ease;
+  border-radius: 0.25vh;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+.recommended .open-scrolling-div{
+  margin-right: var(--recommendation-margin);
+  margin-left: var(--recommendation-margin);
+  border-radius: 2vh;
+}
+/* 
+.scrolling-div .filler{
+  background-image: none;
+  background: none;
+  position: relative;
+  width: var(--scrolling-margin);
+  height: var(--vid_height);
+  float: left;
+
+} */
+
+
+.recommended .scrolling-div::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background-color: transparent;
+}
+.recommended .card {
+  display: inline-block;
+  margin-right: 0.75vw;
+}
+.recommended .image{
+  border-radius: 3vh;
+  height:var(--vid_height);
+}
+
+
+
+.doughnut{
+  background-color: var(--statistics-bg);
+  height: 40vh;
+  width: 25vw;
+  padding: 2.5vw;
+  min-height: 20vw;
+
+}
+
+
+.number_counter{
+  background-color: var(--statistics-bg);
+  height:40vh;
+  min-height: 20vw;
+  width: 25vw;
+  padding: 2.5vw;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center; /* center all text content */
+  font-family: "Poppins", sans-serif;
+  font-weight:600;
+  color: var(--box-text-color);
+}
+
+.number_counter h1{
+  font-size: 18vw;
+
+}
+.number_counter p{
+  font-size: 3vw;
+}
+
+.wide_chart{
+  background-color: var(--statistics-bg);
+  height: 40vh;
+  width: 50vw;
+  padding: 2.5vw;
+  min-height: 20vw;
+}

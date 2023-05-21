@@ -1,6 +1,7 @@
-src/firebase/firebaseAdmin.json
-src/firebase/firebaseConfig.json
-src/settings/user_settings.json
+app/src/firebase/firebaseAdmin.json
+app/src/firebase/firebaseConfig.json
+app/src/settings/user_settings.json
 __pycache__/
 noduro_python/
-node_modules/
+app/node_modules/
+python/settings/email.json
