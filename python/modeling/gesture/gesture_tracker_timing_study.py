@@ -25,18 +25,18 @@ The class takes a frameskip feature, that skips analysis to maximize frame per s
 By default, propietary points are tracked as opposed to all of them, with selected values being chosen to maximize runtime viability whilst maninting accuracy.
 The start, stop, and while procesing functions all serve as placeholders for subclasses to allow for added functionality within the gesture tracking base, as it is a closed loop process without such options"""
 import base64               
-encoded_frames = multiprocess.Queue()
-def encode_and_send_frame(image, output_queue):
-    output_queue.put(image)
-def send_to_js(lock, input_queue):
-    lock.acquire()
-    try:
-        while True:
-            not_encoded_frame = input_queue.get()
-            # Do whatever processing you need with the encoded frame
-            sys.stdout.write(base64.b64encode(cv2.imencode('.jpg', not_encoded_frame)[1].tobytes()).decode('ascii'))
-    finally:
-        lock.release()
+# encoded_frames = multiprocess.Queue()
+# def encode_and_send_frame(image, output_queue):
+#     output_queue.put(image)
+# def send_to_js(lock, input_queue):
+#     lock.acquire()
+#     try:
+#         while True:
+#             not_encoded_frame = input_queue.get()
+#             # Do whatever processing you need with the encoded frame
+#             sys.stdout.write(base64.b64encode(cv2.imencode('.jpg', not_encoded_frame)[1].tobytes()).decode('ascii'))
+#     finally:
+#         lock.release()
 class gesture_tracker(gesture_base):
 
     
@@ -44,7 +44,7 @@ class gesture_tracker(gesture_base):
         # self.draw_face_proprietary(frame, results.face_landmarks, False,scalar)
         self.draw_pose_proprietary(frame, results.pose_landmarks, False,scalar)
         self.draw_hands_proprietary(frame, results.left_hand_landmarks, results.right_hand_landmarks, False,scalar)
-        if results.face_landmarks is not None:
+        if results.face_landmarks is not None and results.pose_landmarks is not None:
             frame,displays =  self.eyes(frame, results)
             if displays is not None:
                 self.etc["screen_elements"] = displays
@@ -146,18 +146,18 @@ class gesture_tracker(gesture_base):
         self.etc["frame_index"] = -1
         self.track = {}
         self.etc["elapsed_time"] = time.time()
-        lock = multiprocess.Lock()
-        printing_process = multiprocess.Process(target=send_to_js, args=(lock, encoded_frames))
-        printing_process.start()
+        # lock = multiprocess.Lock()
+        # printing_process = multiprocess.Process(target=send_to_js, args=(lock, encoded_frames))
+        # printing_process.start()
 
         while True:
             self.etc["frame_index"] +=1
             
-            if time.time() - self.etc["elapsed_time"] > 30:
-                printing_process.terminate()
-                printing_process = multiprocess.Process(target=send_to_js, args=(encoded_frames,))
-                printing_process.start()
-                self.etc["elapsed_time"] = time.time()            
+            # if time.time() - self.etc["elapsed_time"] > 30:
+            #     printing_process.terminate()
+            #     printing_process = multiprocess.Process(target=send_to_js, args=(encoded_frames,))
+            #     printing_process.start()
+            #     self.etc["elapsed_time"] = time.time()            
             self.track[self.etc["frame_index"]] = {"start" : time.time()}
             _, frame = videoCapture.read() 
             
@@ -231,9 +231,10 @@ class gesture_tracker(gesture_base):
             # else:
             #     abc, _, _ =noduro.scale_image_to_window(frame,self.etc["width"],self.etc["height"])
             #Frame displays
-            encode_and_send_frame(frame, encoded_frames)
+            sys.stdout.write(base64.b64encode(cv2.imencode('.jpg', frame)[1].tobytes()).decode('ascii'))
+            # encode_and_send_frame(frame, encoded_frames)
             self.track[self.etc["frame_index"]]["convert_stream"] = time.time() - self.track[self.etc["frame_index"]]["start"];self.track[self.etc["frame_index"]]["start"] = time.time()
-            cv2.imshow("Gesture tracked. Press Q to exit", frame) #show tracking    
+            # cv2.imshow("Gesture tracked. Press Q to exit", frame) #show tracking    
             # cv2.imshow("Gesture tracked. Press Q to exit", cv2.resize(frame,(int(frame.shape[1]/3), int(frame.shape[0]/3)))) #show tracking    
             if cv2.waitKey(1) == ord('q'): #stop everything
                 videoCapture.release()

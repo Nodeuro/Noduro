@@ -163,7 +163,7 @@ def center_and_scale_from_given(points, gpdict_flattened, moving_average = None)
     else:
         # print("no face and/or pose")
         return None
-    if moving_average is not None:
+    if moving_average is not None and len(moving_average) > 0:
         set_scale = np.mean((curr_scale,np.mean(moving_average)))
     else:
         set_scale = curr_scale

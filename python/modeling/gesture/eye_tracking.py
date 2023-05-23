@@ -32,15 +32,18 @@ def nose_line_angle(list_of_values):
     model.fit(list_of_values[:,0].reshape(-1, 1), list_of_values[:,1])
 
     # Calculate the slope of the line connecting the points
-    slope =1/model.coef_[0]
+    if model.coef_[0] == 0:
+        return 0
+    else:
+        slope =1/model.coef_[0]
 
-    # Calculate the angle of the slope relative to the vertical axis (in degrees)
-    angle_degrees = np.degrees(np.arctan(slope))
-    # if slope < 0:
-    #     angle_degrees += 180
-    # elif slope == 0 and np.any(y < 0):
-    #     angle_degrees += 180
-    return (slope,model.intercept_), angle_degrees
+        # Calculate the angle of the slope relative to the vertical axis (in degrees)
+        angle_degrees = np.degrees(np.arctan(slope))
+        # if slope < 0:
+        #     angle_degrees += 180
+        # elif slope == 0 and np.any(y < 0):
+        #     angle_degrees += 180
+        return angle_degrees
 
 def angle_between_two_lines(M1,M11,M2,M22):
     if M11 == 0:
@@ -104,16 +107,16 @@ def focus_tracking(left_iris_list, right_iris_list, chest_list, nose_list, displ
     chest_distance = pythag(chest_list[0],chest_list[1])/2
     
     
-    fundamental_ratio = eye_distance/chest_distance + abs(np.diff(chest_z)[0]) #max of 2
+    fundamental_ratio = abs(eye_distance/chest_distance + abs(np.diff(chest_z)[0])) #max of 2
     if fundamental_ratio > 2:
         fundamental_ratio = 2
-    nose_line, nose_angle = nose_line_angle(nose_list)
-    nose_line = nose_line[0]
+    nose_angle = nose_line_angle(nose_list)
 
-    roll = (chest_angle * 0.25 + nose_angle) /  60  #060
+
+    roll = abs(chest_angle * 0.25 + nose_angle) /  60  #060
     if roll > 1:
         roll = 1
-    derived_focus = (abs(roll * 2) + abs(fundamental_ratio))/4 #factor 2 together]
+    derived_focus = (roll * 2 + fundamental_ratio)/4 #factor 2 together]
     if display is not None:
         ret = draw_eye_calculations(display, eye_center, body_center, np.asarray(chest_list, np.int32), new_point, derived_focus, roll, fundamental_ratio)
         return ret
