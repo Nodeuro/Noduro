@@ -10,6 +10,7 @@
   --background: #efe5d1;
   --main: #c6b690;
   --main-margin: 1vh;
+  --main-div: 85vh;
 }
 
 html,body {
@@ -22,7 +23,7 @@ html,body {
 }
 
 
-.main_div {
+.main_div, .overlay{
   padding: 0;
   justify-content: center;
   display: flex;
@@ -34,15 +35,87 @@ html,body {
   top: var(--main-margin);
   left: var(--main-margin);
   right: var(--main-margin);
-  height: 85vh;
+  height: var(--main-div);
+}
+.overlay{
+  z-index: 10; /* set a high z-index value */
+  justify-content: center; /* center items horizontally */
+  align-items: center; /* center items vertically */
+}
 
+.loading-container {
+  position: absolute; /* add position absolute to the loading container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loading-text {
+  font-family: "Anuphan", sans-serif;
+  font-size: 2rem;
+  color: white;
+  margin-left: 1rem;
+}
+
+.loading-circle {
+  border: 0.2rem solid rgba(255, 255, 255, 0.2);
+  border-top: 0.2rem solid white;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 .video_div {
   flex: 1; /* set equal width for both columns */
   height: 100%;
   width: 45%;
   padding: none;
+  position: relative; /* add position relative to the parent div */
 }
+
+.big-icon{
+  font-size: 4vh;
+  line-height: 0;
+}
+.go-back {
+  z-index: 9999;
+  position: absolute; /* add position absolute to the go-back button */
+  padding:0;
+  top: calc(2 * var(--main-margin));
+  left:calc(2 * var(--main-margin));
+  width: 4vh;
+  height: 4vh;
+  border-radius: 50%;
+  background-color: var(--background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.go-back:hover {
+  background-color: var(--main);
+  transform: scale(1.1);
+}
+
+/* .go-back:before {
+  content: "\2190"; 
+  font-size: 2vh;
+  color: var(--main);
+  font-weight: bold; 
+} 
+*/
+
 .camera_div {
   flex: 1; /* set equal width for both columns */
   height: 100%;
@@ -56,5 +129,49 @@ html,body {
   height: 100%;
   object-fit: cover; /* optional - this will ensure the video fills the entire div without distortion */
   border-radius: 2vh;
+}
 
+.overlay-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* optional - this will ensure the video fills the entire div without distortion */
+  border-radius: 2vh;
+  z-index: -1;
+  opacity: 1;
+  filter: blur(15px) brightness(50%);
+  transition: opacity 0.5s ease-in-out, visibility 0s linear 0.5s;
+  visibility: visible;
+}
+
+/* .overlay-video::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  filter: blur(5px);
+
+} */
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 2s ease-in-out, visibility 2s linear;
+}
+
+.bottom-div {
+  padding: 0;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex-flow:row nowrap;
+  border-radius: 2vh;
+  background-color: var(--main);
+  position: absolute;
+  bottom: var(--main-margin);
+  left: var(--main-margin);
+  right: var(--main-margin);
+  height: calc(100vh - var(--main-div) - 3 * var(--main-margin));
 }

@@ -45,8 +45,14 @@ function drawImageOnCanvas(base64String) {
 }
 window.noduro.startPythonFile("../python/modeling/gesture/gesture_tracker_timing_study.py")
 // var cam = document.getElementById('camera');
+var first_time = true;
 window.addEventListener('message', (event) => {
   if (event.data.type === 'imageData') {
+    if (first_time) {
+      const video = document.querySelector('.overlay');
+      video.classList.add('hidden');
+      first_time = false;
+    }
     const imageBase64 = event.data.payload;
     drawImageOnCanvas(imageBase64);
 
