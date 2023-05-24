@@ -12,40 +12,31 @@
 </head>
 
 <body>
-  <!-- <header>
-    <div class = "filler"></div>
-    <div class = "global_header"> 
-      <div class = "header_left">
-        <h1 class = "header_title" onclick="window.location.href='./index.html';">Noduro Open Beta 1.0</h1>
-      </div>
-      <div class = "header_right">
-        <button class = "navigation_button" onclick="window.location.href='../index.html';">Home</button>
-        <button class = "navigation_button" onclick="window.location.href='./tech.html';">Technology</button>
-        <button class = "navigation_button" onclick="window.location.href='../settings/settings.html';">Settings</button>
-        <button class = "navigation_button" onclick="window.location.href='../login/login.html';">Login</button>
+  <div class="go-back" onclick="window.location.href='../index.html'"> <i class="bi bi-arrow-left-short big-icon"></i> </div> <!-- add the go-back button div -->
+  <div class="info-button"> <i class="bi bi-info big-icon"></i> </div> <!-- add the go-back button div -->
 
-      </div>
-    </div>
-  </header> -->
-  <div class="go-back" onclick="window.location.href='../index.html'"> <i class="bi bi-arrow-left-short big-icon"></i>
-  </div> <!-- add the go-back button div -->
   <div class="overlay">
     <div class="loading-container">
       <div class="loading-text">Loading...</div>
       <div class="loading-circle"></div>
     </div>
-    <video class="overlay-video" autoplay loop>
-      <source src="../fake_data/half_res.mp4" type="video/mp4">
+    <video class="overlay-video teacher" autoplay loop>
+      <source src = "../fake_data/half_res.mp4" type="video/mp4">
     </video>
 
   </div>
 
   <div class="main_div">
-
+    <div class = "video_playbar">
+    <div class="timeline-container">
+      <div class="timeline-progress"></div>
+    </div>
+      <button id="play_button" class = "play_pause"><i id = play_button_icon class="bi bi-play-fill big-icon"></i></button>
+    </div>
     <div class="video_div">
 
-      <video class="camera" autoplay loop>
-        <source src="../fake_data/full_res.mp4" type="video/mp4">
+      <video class="camera"  id = "instructional_content"autoplay>
+        <source type="video/mp4">
       </video>
     </div>
 

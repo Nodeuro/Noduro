@@ -1,0 +1,16 @@
+// BEGIN: ed8c6549bwf9
+.video_playbar button{
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+}
+.video_playbar button i{
+  color: white;
+
+}
+.video_playbar:hover, .video_playbar.hover, .video_playbar.keep-hovered{
+  opacity: 0.8;
+  transition-delay: 15s;
+}
+// END: ed8c6549bwf9

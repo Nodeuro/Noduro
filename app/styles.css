@@ -9,6 +9,8 @@
   --statistics-bg: rgb(153, 141, 109);
   --box-bg: #f6f1e4;
   --box-text-color: #3b3527;
+  --overlay_text: var(--background);
+  --overlay_text_hover: var(--main_div_text_color);
   }
   }
 
@@ -22,7 +24,9 @@
     --statistics-bg: rgb(153, 141, 109);
     --box-bg: #f6f1e4;
     --box-text-color: #2f2c26;
-
+    --overlay_text: var(--background); 
+    --overlay_text_hover: var(--main_div_text_color);
+  
 
   }
   
@@ -123,7 +127,6 @@ html, body {
   line-height: 1;
 }
 
-
 .recommended{
   width: var(--recomendation-width);
   text-transform: capitalize;
@@ -168,8 +171,10 @@ html, body {
   border-radius: 2vh;
   right: auto;
   background-image: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.55) 15%, rgba(0,0,0,0.35) 30%, rgba(0,0,0,0.2) 45%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0) 100%);
+  z-index: 9999;
+  pointer-events: none; /* added to make the element not clickable */
 }
-.recommended .scrolling-wrapper .right{
+.scrolling-wrapper .right{
   width: var(--scrolling-margin);
   top: 0;
   height: var(--vid_height);
@@ -179,7 +184,8 @@ html, body {
   right: var(--recommendation-margin);
   border-radius: 2vh;
   background-image: linear-gradient(270deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.55) 15%, rgba(0,0,0,0.35) 30%, rgba(0,0,0,0.2) 45%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0) 100%);
-
+  z-index: 9999;
+  pointer-events: none; /* added to make the element not clickable */
 }
 .scrolling-wrapper .before{
   opacity: 0;
@@ -235,12 +241,36 @@ html, body {
 .recommended .card {
   display: inline-block;
   margin-right: 0.75vw;
+  position: relative; /* add position relative to the card */
 }
-.recommended .image{
-  border-radius: 3vh;
-  height:var(--vid_height);
+.recommended .card:hover {
+  display: inline-block;
+  margin-right: 0.75vw;
+} 
+.recommended .card .overlay_text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1vh;
+  opacity: 0; /* set opacity to 0 */
+  color: var(--overlay_text);
+  transition: opacity 0.5s ease-in-out, color 0.5s ease-in-out;
+  z-index: 1;
+}
+.recommended .card:hover .overlay_text { /* show overlay text on hover */
+  opacity: 1;
+  color: var(--overlay_text_hover);
 }
 
+.recommended .image{
+  border-radius: 1vh;
+  height:var(--vid_height);
+  transition: all 0.5s ease;
+}
+.recommended .card:hover .image{
+  filter: brightness(50%);
+  }
 
 
 .doughnut{

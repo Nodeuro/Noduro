@@ -166,7 +166,20 @@ contextBridge.exposeInMainWorld("noduro", {
     sendVideoFrame: (frameData) => {
         ipcRenderer.send('videoFrame', frameData);
     },
-    
+    get_lesson_data: (lesson_id) => {
+        try {
+            var full_path = path.join(__dirname, "lessons", lesson_id, "data.json");
+            var read = fs.readFileSync(full_path, 'utf-8');
+            var data = JSON.parse(read);
+            for (var metaPath in data.meta){
+                data.meta[metaPath] = path.join(__dirname, "lessons", lesson_id, data.meta[metaPath])
+            }
+            return data;
+        } catch (error) {
+            throw new Error('File does not exist');
+            return null;
+        }
+    },
 });
 
 

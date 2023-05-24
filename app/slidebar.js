@@ -13,16 +13,27 @@ function add_element(div_name, image_source, name) {
     var entry = document.createElement("div");
     entry.setAttribute("class", "card");
     entry.setAttribute("id", name);
+
+    // Add click event listener to redirect to tech.html
+    entry.addEventListener("click", function() {
+        window.location.href = "./technology/tech.html";
+    });
+
     // create a new div element
     var image = document.createElement("img");
     image.setAttribute("class", "image");
-
     image.setAttribute("alt", name);
-
     image.src = image_source;
-    // elem.setAttribute("height", "768");
-    // elem.setAttribute("width", "1024");
     entry.appendChild(image);
+
+    // Add overlay div
+    var overlay = document.createElement("div");
+    overlay.setAttribute("class", "overlay_text");
+    var link = document.createElement("h1");
+    link.textContent = "Brioche Bun Fun";
+    overlay.appendChild(link);
+    entry.appendChild(overlay);
+
     // add list element
     list.appendChild(entry);
 }

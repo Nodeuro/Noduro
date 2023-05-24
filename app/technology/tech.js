@@ -12,9 +12,57 @@
 //   .catch(function() {
 //     alert('could not connect stream');
 //   });
+//starting
+const overlay = document.querySelector('.overlay');
+var noduro_instruction_data = noduro.get_lesson_data("0");
+
+//will appear later
+const playButton = document.getElementById('play_button');
+const playButton_Icon = document.getElementById('play_button_icon'); 
+const timelineProgress = document.querySelector('.timeline-progress');
+const timeline_div = document.querySelector('.video_playbar');
+
+var video_element = document.getElementById("instructional_content");
+
 
 var canvas = document.getElementById("camera");
 var ctx = canvas.getContext("2d");
+
+
+function updateProgress() {
+  const progress = (video_element.currentTime / video_element.duration) * 100;
+  timelineProgress.style.width = `${progress}%`;
+}
+
+setInterval(updateProgress, 100);
+
+var delay = Date.now();
+playButton.addEventListener('click', () => {
+  delay =  Date.now();
+  if (video_element.paused) {
+    video_element.play();
+    playButton_Icon.classList.add('bi-pause');
+    playButton_Icon.classList.remove('bi-play-fill');
+  }
+  else {
+    video_element.pause();
+    playButton_Icon.classList.add('bi-play-fill');
+    playButton_Icon.classList.remove('bi-pause');
+
+  }
+});
+
+timeline_div.addEventListener('mousedown', (event) => {
+  if (Date.now() - delay >  1000) {
+  const timelineWidth = timeline_div.offsetWidth;
+  const clickX = event.offsetX- timeline_div.offsetLeft;
+  const percent = clickX / timelineWidth;
+  const newTime = percent * video_element.duration;
+  video_element.currentTime = newTime;
+  }
+});
+
+
 
 // Define image object
 var image = new Image();
@@ -44,22 +92,21 @@ function drawImageOnCanvas(base64String) {
   };
 }
 window.noduro.startPythonFile("../python/modeling/gesture/gesture_tracker_timing_study.py")
+// window.noduro.startPythonFile("../python/run.py")
 // var cam = document.getElementById('camera');
 var first_time = true;
-window.addEventListener('message', (event) => {
-  if (event.data.type === 'imageData') {
-    if (first_time) {
-      const video = document.querySelector('.overlay');
-      video.classList.add('hidden');
-      first_time = false;
+  window.addEventListener('message', (event) => {
+    if (event.data.type === 'imageData') {
+      if (first_time) {
+        setTimeout(() => {
+          overlay.remove();
+        }, 1000);
+        first_time = false;
+        video_element.src = noduro_instruction_data.meta.video_path;
+
+      }
+      const imageBase64 = event.data.payload;
+      drawImageOnCanvas(imageBase64);
     }
-    const imageBase64 = event.data.payload;
-    drawImageOnCanvas(imageBase64);
+  });
 
-    // // Create a URL for the base64 image data
-    // const imageURL = `data:image/jpeg;base64,${imageBase64}`;
-
-    // // Use the image URL as the source for your HTML video element
-    // cam.src = imageURL;
-  }
-});
