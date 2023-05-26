@@ -52,8 +52,8 @@ var privacy_anonymize = document.getElementById("anonymize_data");
 var reset_page = document.getElementById("reset_page");
 var delete_passwords = document.getElementById("password_delete");
 //DEFAULT VALUES
-let canvas;
-let context;
+
+
 try{
     var settings = window.noduro.readJSONFile(user_settings_path);
 }
@@ -96,8 +96,6 @@ function initialize(){
     }
     else{
         video_lowLightSlider.value = settings.video.lowLight; video_lowLightSlider.classList.add('show'); video_lowLight.checked = true;
-        camera_object.style.filter = `brightness(${100 + settings.video.lowLight * 10}%)`;
-
     }
 
     audio_main.value = settings.audio.master_volume;
@@ -135,17 +133,15 @@ function during(){
     // Check if the browser supports getUserMedia API
     // Access the user's camera
     navigator.mediaDevices.getUserMedia({ video: true })
-    .then(function (stream) {
-        camera_object.srcObject = stream;
-        camera_object.onloadedmetadata = function () {
+        .then(function (stream) {
+            camera_object.srcObject = stream;
+            camera_object.onloadedmetadata = function () {
             camera_object.play();
-
+    
             // Create a canvas element to manipulate the video stream
-            canvas = document.createElement('canvas');
-            context = canvas.getContext('2d');
-            // Set the initial brightness to 100%
-            let brightness = 100;
-            context.filter = `brightness(${brightness}%)`;
+            var canvas = document.createElement('canvas');
+            var context = canvas.getContext('2d');
+        
             // Adjust for low light
             track = stream.getVideoTracks()[0];
             const capabilities = track.getCapabilities();
@@ -155,15 +151,10 @@ function during(){
             const res_height = capabilities.height.max;
             populateDropdown(res_width,res_height,'resolution');
             // Populate the dropdown with the supported resolutions
-            // Listen for changes to the brightness slider
-            video_lowLightSlider.addEventListener('input', function (event) {
-                // Update the brightness value and apply the filter
-                brightness = event.target.value;
-                camera_object.style.filter = `brightness(${100 + parseInt(this.value) * 10}%)`;
-            });
-        };
-    })
-    .catch(function (error) {
+
+            };
+        })
+        .catch(function (error) {
         console.error('Error accessing the webcam:', error);
     });
 

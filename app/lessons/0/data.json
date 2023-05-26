@@ -42,11 +42,11 @@
         "allergens": ["Soy", "Gluten"]
     },
     "nutrition": {
-        "calories": "350",
-        "carbohydrates": "55g",
-        "protein": "10g",
-        "fat": "10g",
-        "fiber": "8g"
+        "calories": 350,
+        "carbohydrates": 55,
+        "protein": 10,
+        "fat": 10,
+        "fiber": 8
     },
     "steps": [
         {
