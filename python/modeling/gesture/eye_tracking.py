@@ -119,7 +119,7 @@ def focus_tracking(left_iris_list, right_iris_list, chest_list, nose_list, displ
     derived_focus = (roll * 2 + fundamental_ratio)/4 #factor 2 together]
     if display is not None:
         ret = draw_eye_calculations(display, eye_center, body_center, np.asarray(chest_list, np.int32), new_point, derived_focus, roll, fundamental_ratio)
-        return ret
+        return *ret, derived_focus
     else:
         return derived_focus
     #combine chest_z and eye_ratiop

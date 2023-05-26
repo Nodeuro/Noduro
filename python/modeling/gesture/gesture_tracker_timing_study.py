@@ -18,13 +18,14 @@ import modeling.gesture.check_distance as check_distance
 from modeling.gesture.gesture_base import gesture_base
 import multiprocessing as multiprocess
 import sys
+import json
 """a base class that takes videos, as either a video file or through a capture. 
 Base gestures are derived from mediapipe's Holistic, Hand, Pose, and Face Mesh modules. 
 The gesture class doesn't need to use holistic, but it is strongle recommended.{}
 The class takes a frameskip feature, that skips analysis to maximize frame per second whilst maintaining gesture analysis.
 By default, propietary points are tracked as opposed to all of them, with selected values being chosen to maximize runtime viability whilst maninting accuracy.
 The start, stop, and while procesing functions all serve as placeholders for subclasses to allow for added functionality within the gesture tracking base, as it is a closed loop process without such options"""
-import base64               
+import base64     
 # encoded_frames = multiprocess.Queue()
 # def encode_and_send_frame(image, output_queue):
 #     output_queue.put(image)
@@ -34,20 +35,19 @@ import base64
 #         while True:
 #             not_encoded_frame = input_queue.get()
 #             # Do whatever processing you need with the encoded frame
-#             sys.stdout.write(base64.b64encode(cv2.imencode('.jpg', not_encoded_frame)[1].tobytes()).decode('ascii'))
+#             print(base64.b64encode(cv2.imencode('.jpg', not_encoded_frame)[1].tobytes()).decode('ascii'))
 #     finally:
 #         lock.release()
 class gesture_tracker(gesture_base):
-
-    
     def draw_holistic(self, frame, results, scalar = 1): #run the drawing algorithms
         # self.draw_face_proprietary(frame, results.face_landmarks, False,scalar)
         self.draw_pose_proprietary(frame, results.pose_landmarks, False,scalar)
         self.draw_hands_proprietary(frame, results.left_hand_landmarks, results.right_hand_landmarks, False,scalar)
         if results.face_landmarks is not None and results.pose_landmarks is not None:
-            frame,displays =  self.eyes(frame, results)
+            frame,displays, focus =  self.eyes(frame, results)
             if displays is not None:
                 self.etc["screen_elements"] = displays
+            self.etc["focus"] = np.round(focus,3)
         return frame
     
     def eyes(self, frame, landmarks):
@@ -62,8 +62,8 @@ class gesture_tracker(gesture_base):
         chest_list = np.array([list(self._normalized_to_pixel_coordinates_3d(land.x, land.y, land.z, image_cols, image_rows)) for index, land in enumerate(pose_list.landmark) if index in chest]) #rewrite
         nose_list = np.array([list(self._normalized_to_pixel_coordinates(land.x, land.y, image_cols, image_rows)) for index, land in enumerate(face_list.landmark) if index in nose_line]) #rewrite
 
-        frame, display_string = eye_tracking.focus_tracking(left_iris_list,right_iris_list,chest_list,nose_list, frame)
-        return frame, display_string
+        frame, display_string, focus = eye_tracking.focus_tracking(left_iris_list,right_iris_list,chest_list,nose_list, frame)
+        return frame, display_string, focus
 
     def per_frame_analysis(self, frame, show_final : bool = True, video_scalar = 1):
         frame.flags.writeable = False #save speed
@@ -231,7 +231,17 @@ class gesture_tracker(gesture_base):
             # else:
             #     abc, _, _ =noduro.scale_image_to_window(frame,self.etc["width"],self.etc["height"])
             #Frame displays
-            sys.stdout.write(base64.b64encode(cv2.imencode('.jpg', frame)[1].tobytes()).decode('ascii'))
+            # cv2.imshow("Gesture tracked. Press Q to exit", frame) #show tracking
+            # sys.stdout.write(base64.b64encode(cv2.imencode('.jpg', frame)[1].tobytes()).decode('ascii'))
+            if "app_settings" in self.etc:
+                if self.etc["app_settings"]["flipVideo"] == True:
+                    frame =  cv2.flip(frame, 1)
+                # if self.etc["app_settings"]["lowLight"] != -1:
+                #     frame = np.clip(frame * (1+self.etc["app_settings"]["lowLight"]/10), 0, 255).astype(np.uint8)
+            if "focus" in self.etc:
+                sys.stdout.write(base64.b64encode(cv2.imencode('.jpg', frame)[1].tobytes()).decode('ascii') + " " + str(self.etc["fps"]) + " " + str(self.etc["focus"]))
+            else:
+                sys.stdout.write(base64.b64encode(cv2.imencode('.jpg', frame)[1].tobytes()).decode('ascii') +  " " + str(self.etc["fps"]))
             # encode_and_send_frame(frame, encoded_frames)
             self.track[self.etc["frame_index"]]["convert_stream"] = time.time() - self.track[self.etc["frame_index"]]["start"];self.track[self.etc["frame_index"]]["start"] = time.time()
             # cv2.imshow("Gesture tracked. Press Q to exit", frame) #show tracking    
@@ -254,7 +264,10 @@ class gesture_tracker(gesture_base):
         if capture_index == None:
             capture_index = self.camera_selector() #select camera
         self.capture = cv2.VideoCapture(capture_index, cv2.CAP_DSHOW) #cap_show makes startup alot faster. Starts camera
-        self.capture = noduro.set_resolution(self.capture, 1920,1080)
+        if "app_settings" in self.etc:
+            self.capture = noduro.set_resolution(self.capture, *self.etc["app_settings"]["resolution"])
+        else:
+            self.capture = noduro.set_resolution(self.capture, 1920,1080)
         first_frame = True  
         landmarks = None
         self.looping_analysis(videoCapture = self.capture, video_shape = None, fps = None, result_vid = save_results_vid_file, starting_vid = save_vid_file, frame_skip = frame_skip, save_pose = analyze, standardize_pose = analyze, save_frames = analyze)    
@@ -300,7 +313,27 @@ class gesture_tracker(gesture_base):
     def start(self):
         self.gpdict_flatten = standardize.flatten_gesture_point_dict_keys_to_list(self.gesture_point_dict)
 if __name__ == '__main__':
-    a = gesture_tracker(frameskip = True)
+    # start = time.time()
+    # while True:
+    #     # Read a message from the parent process
+    #     line = sys.stdin.readline()
+    #     if line or time.time() - start > 10:
+    #         break
+
+    file = noduro.subdir_path(read_settings.get_settings()[0]["filesystem"]["app_user_settings"])
+    if os.stat(file).st_size == 0:
+        file = noduro.subdir_path(read_settings.get_settings()[0]["filesystem"]["app_settings"])
+
+    # Open the JSON file
+    with open(file) as f:
+        # Load the JSON data into a dictionary
+        data = json.load(f)["video"]
+
+        # Now you can use the dictionary as needed
+    a = gesture_tracker(frameskip = True, app_settings = data)
+
+    # Parse the message as JSON
+    
     a.averages = {}
     # a.video_analysis("C:/Users/aadvi/Desktop/IMG_1004.mp4", result_video = "C:/Users/aadvi/Desktop/vid.mp4")
 
