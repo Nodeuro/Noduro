@@ -148,13 +148,15 @@ contextBridge.exposeInMainWorld("noduro", {
             console.error('Error saving object as JSON:', error);
         }
     },
-    startPythonFile: (filePath) => {
+    startPythonFile: (filePath, settings) => {
         const pythonProcess = spawn(pythonExecutable, [filePath]);
+    
         pythonProcess.stdout.on('data', (data) => {
         // Handle output from the Python script if needed
-        const imageBase64 = data.toString().trim();
+        const imageBase64 = data.toString().trim().split(' ');
+        // Split the data string based on spaces
         // Decode the base64 image data
-        window.postMessage({type: 'imageData', payload: imageBase64 }, '*');
+        window.postMessage({type: 'imageData', payload: imageBase64}, '*');
         
         });
         

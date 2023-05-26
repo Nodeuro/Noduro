@@ -26,7 +26,7 @@ class gesture_base:
     def __init__(self, eye : bool = True, face : bool = True, hand : bool = True, pose : bool = True,
                 eye_confidence : float = 0.7, face_confidence : float = 0.7,
                 hand_confidence : float = 0.7, pose_confidence : float  = 0.7,
-                number_of_hands : int = 2, frameskip = False):
+                number_of_hands : int = 2, frameskip = False, app_settings = None):
         self.track = {}
         self.draw = True
         self.landmark_px = { 
@@ -52,6 +52,8 @@ class gesture_base:
             "optimal_fps" : 20,
             "distance" : 1.0
         } #various values that don't need their own class variables
+        if app_settings != None:
+            self.etc["app_settings"] = app_settings
         if frameskip == True:
             self.etc["frame_skip"] = read_settings.get_points()
             self.etc["video_scalar"] = read_settings.get_video_scalar()
