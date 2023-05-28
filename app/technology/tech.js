@@ -1,18 +1,3 @@
-// navigator.mediaDevices.getUserMedia({video: true})
-//   .then(function(stream) {
-//     document.getElementById('camera').srcObject = stream;
-
-//     const track = stream.getVideoTracks()[0];
-//     const settings = track.getSettings();
-//     const width = settings.width;
-//     const height = settings.height;
-//     document.getElementById('camera').setAttribute('width', width);
-//     document.getElementById('camera').setAttribute('height', height);
-//   })
-//   .catch(function() {
-//     alert('could not connect stream');
-//   });
-//starting
 
 var default_settings_path = "/src/settings/default_settings.json";
 var user_settings_path = "/src/settings/user_settings.json";
@@ -40,6 +25,8 @@ const timeline_clickable = document.querySelector('.timeline-clickable');
 const video_element = document.getElementById("instructional_content");
 const info_button = document.querySelector(".info-button");
 const info_div = document.querySelector('.info-div');
+const accordion_div = document.querySelector('.info-accordion');
+
 var info_open = false;
 var focus_display = document.getElementById("focus_display");
 const fps_div = document.getElementById("fps_div");
@@ -135,8 +122,7 @@ var step_done = false;
 var time_on_current_timer = 0;
 time_on_step.innerHTML =  `<sup>0</sup>/<sub>${noduro_instruction_data.steps[curr_step].duration}</sub>`;
 step_counter.innerHTML =  `<sup>1</sup>/<sub>${noduro_instruction_data.steps.length}</sub>`;
-
-window.noduro.startPythonFile("../python/modeling/gesture/gesture_tracker_timing_study.py", settings)
+window.noduro.startPythonFile("../python/modeling/gesture/asynchronous_gesture.py", settings)
 // window.noduro.startPythonFile("../python/run.py")
 // var cam = document.getElementById('camera');
 var first_time = true;
@@ -168,73 +154,12 @@ var first_time = true;
       }
       const imageBase64 = event.data.payload;
       drawImageOnCanvas(imageBase64[0]);
-      write_fps(imageBase64[1]);
-      if (imageBase64.length > 2){
-        write_focus(imageBase64[2]);
-      }
+      let alt_data = JSON.parse(imageBase64[1]);
+      write_fps(alt_data.fps);
+      write_focus(alt_data.focus);
     }
   });
 
-  // Assuming you have a JSON object stored in a variable called 'jsonData'
-
-  // Parse the JSON object
-
-  // Get a reference to the div you want to add the items to
-
-  // Iterate over the items in the parsedData object
-// function add_accordian(name, display_name, container_class, header_class, content_class){
-//   var curr_data = noduro_instruction_data[name];
-    
-//   // Add "Ingredients" as an h1 element to the info_div
-//   const details = document.createElement('div');
-//   details.classList.add(container_class);
-//   const ingredientsHeader = document.createElement('button');
-//   ingredientsHeader.innerHTML = display_name;
-//   ingredientsHeader.classList.add(header_class);
-//   details.appendChild(ingredientsHeader);
-//   if (typeof curr_data[Object.keys(curr_data)[0]]  === 'object'){
-  
-//     for (const ingredient of curr_data) {
-//       const ingredientElement = document.createElement('p');
-//       ingredientElement.textContent = Object.values(ingredient);
-//       ingredientElement.classList.add(content_class);
-//       details.appendChild(ingredientElement);
-//     }
-//   }
-//   else {
-//     for (const ingredient of Object.keys(curr_data)) {
-//       const ingredientElement = document.createElement('p');
-//       ingredientElement.classList.add(content_class);
-//       ingredientElement.textContent = ingredient + ": " + curr_data[ingredient];
-//       details.appendChild(ingredientElement);
-//     }
-//   }
-//   info_div.appendChild(details);
-// }
-// add_accordian("ingredients", "Ingredients", "accordion", "accordion-button", "accordion-content");
-// add_accordian("nutrition", "Nutrition Facts", "accordion", "accordion-button", "accordion-content");
-// add_accordian("steps", "Instruction", "accordion", "accordion-button", "accordion-content");  
-// add_accordian("tags", "Tags", "accordion", "accordion-button", "accordion-content");
-
-// // for (const ingredient of curr_data) {
-// //   const ingredientElement = document.createElement('p');
-// //   ingredientElement.textContent = Object.values(ingredient);
-// //   div_a.appendChild(ingredientElement);
-// // }
-// // info_div.appendChild(div_a);
-// const accordionButtons = document.querySelectorAll('.accordion-button');
-
-// accordionButtons.forEach(button => {
-//   button.addEventListener('click', () => {
-//     button.classList.toggle('active');
-//     const accordionContent = button.nextElementSibling;
-//     if (accordionContent.style.display === 'block') {
-//       accordionContent.style.display = 'none';
-//     } else {
-//       accordionContent.style.display = 'block';
-//     }
-//   });
-// });
 
   info_button.addEventListener('click', () => {
     info_div.classList.toggle('info_div_active');
@@ -324,3 +249,139 @@ reload_button.addEventListener('click', () => {
     location.reload();
   }
 });
+
+
+
+
+function display_facts(json_file, mainDiv, div_class) {
+  const ingredientsDiv = document.createElement('div'); ingredientsDiv.classList.add(div_class);
+  const stepsDiv = document.createElement('div'); stepsDiv.classList.add(div_class);
+  const nutritionalFactsDiv = document.createElement('div'); nutritionalFactsDiv.classList.add(div_class);
+  const tagsDiv = document.createElement('div'); tagsDiv.classList.add(div_class);
+  //Create the header
+  
+  const ingredientsHeader = document.createElement('button');
+  const stepsHeader = document.createElement('button');
+  const nutritionalFactsHeader = document.createElement('button');
+  const tagsHeader = document.createElement('button');
+  
+  //put the text in the header
+  ingredientsHeader.innerHTML = 'Ingredients';
+  stepsHeader.innerHTML = 'Steps';
+  nutritionalFactsHeader.innerHTML = 'Nutritional Facts';
+  tagsHeader.innerHTML = 'Tags';
+
+  //add the header to the div
+  ingredientsDiv.appendChild(ingredientsHeader);
+  stepsDiv.appendChild(stepsHeader);
+  nutritionalFactsDiv.appendChild(nutritionalFactsHeader);
+  tagsDiv.appendChild(tagsHeader);
+
+  //add the content div
+  const ingredientsContent = document.createElement('div');
+  const stepsContent = document.createElement('div');
+  const nutritionalFactsContent = document.createElement('div');
+  const tagsContent = document.createElement('div');
+
+  //add the "p" for for the actual content
+  const ingredientsP = document.createElement('p');
+  const stepsP = document.createElement('p');
+  const nutritionalFactsP = document.createElement('p'); nutritionalFactsP.classList.add('capitalize');
+  const tagsP = document.createElement('p'); tagsP.classList.add('capitalize');
+  
+  //add ingredients content to p
+  for (const ingredient of json_file.ingredients) {
+    if (/\d/.test(ingredient.quantity)) {
+      ingredientsP.innerHTML += ingredient.quantity + " " + ingredient.name + "<br>";
+    } else {
+      ingredientsP.innerHTML += ingredient.name + " " + ingredient.quantity + "<br>";
+    }
+  }
+  ingredientsContent.appendChild(ingredientsP);
+  ingredientsDiv.appendChild(ingredientsContent);
+  //Steps
+  for (const step of json_file.steps) {
+    stepsP.innerHTML += step.index + ": " + step.description + "<br>";
+  }
+  stepsContent.appendChild(stepsP);
+  stepsDiv.appendChild(stepsContent);
+    //Nutritional Facts
+  for (const fact in json_file.nutrition) {
+    nutritionalFactsP.innerHTML +=  `${fact}: ${json_file.nutrition[fact]}<br>`;
+  }
+  nutritionalFactsContent.appendChild(nutritionalFactsP);
+  nutritionalFactsDiv.appendChild(nutritionalFactsContent);
+  //Tags
+  for (const fact in json_file.tags) {
+    var tag = `${fact.replace(/_/g, ' ')}: ${Array.isArray(json_file.tags[fact]) ? json_file.tags[fact].join(', ') : json_file.tags[fact]}<br>`;
+    tagsP.innerHTML += tag;
+  }
+  tagsContent.appendChild(tagsP);
+  tagsDiv.appendChild(tagsContent);
+
+  //add the divs to the main div
+  mainDiv.appendChild(ingredientsDiv);
+  mainDiv.appendChild(stepsDiv);
+  mainDiv.appendChild(nutritionalFactsDiv);
+  mainDiv.appendChild(tagsDiv);
+}
+
+display_facts(noduro_instruction_data, accordion_div, 'accordion');
+
+const accordionButtons = document.querySelectorAll('.accordion button');
+
+// accordionButtons.forEach(button => {
+//   button.addEventListener('click', () => {
+//     button.parentElement.classList.toggle('div-active');
+//     button.nextElementSibling.classList.toggle('active');
+
+//   });
+// });
+accordionButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const buttonHeight = button.offsetHeight;
+    const contentHeight = button.nextElementSibling.offsetHeight;
+    const totalHeight = buttonHeight + contentHeight;
+    const parentElement = button.parentElement;
+    if (parentElement.style.height === `${totalHeight}px`) {
+      parentElement.style.height = `${buttonHeight}px`;
+    } else {
+      parentElement.style.height = `${totalHeight}px`;
+    }
+    button.nextElementSibling.classList.toggle('active');
+  });
+});
+/* <div class="accordion">
+<button class="accordion-button">Click me</button>
+<div class="accordion-content">
+  <p>Here is some content that will be hidden by default.</p>
+</div>
+</div>
+
+ */
+
+/*
+
+Ingredients:
+1. 
+2. 
+3. 
+4. 
+
+Steps:
+1. laksd;jfa 
+2.asdf
+3.asdgHf
+4. adADFHE
+
+Nutritional Facts:
+Calories: 100
+Fat: 10g
+Protein: 10g
+Carbs: 10g
+
+Tags:
+Dietary: 
+Cuisine:
+Meal Type:
+*/

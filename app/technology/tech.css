@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css?family=Poppins");
+/* @import url("https://fonts.googleapis.com/css?family=Poppins"); */
+@import url('https://fonts.googleapis.com/css2?family=Poppins');
 @import url("https://fonts.googleapis.com/css2?family=Anuphan&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
 
@@ -16,6 +17,9 @@
   --bottom_bg : #e1d4b9;
   --buttons-size: calc(24px + 1vw);
   --bottom-font-size: calc(12px + 2.5vw);
+  --accordion_bg: #efe5d1;
+  --accordion_color: #32302d;
+  --accordion_hover_bg: #746a53;
 }
 
 @keyframes spin {
@@ -263,6 +267,7 @@ html,body {
   left:calc(-2 * var(--main-margin) - var(--buttons-size));
   right: auto;
   transition: all 1s ease-in-out;
+  position:absolute;
 }
 .info-button:hover{
   transition: all 0.4s ease-in-out;
@@ -274,15 +279,29 @@ html,body {
   position:absolute;
   box-sizing: border-box;
   top:0;
-  right: calc(-300px - 12vw);
-  width: calc(300px + 12vw);
+  right: calc(-450px - 12vw);
+  width: calc(450px + 12vw);
   height: calc(var(--main-div) + 1 * var(--main-margin));
   border-top-left-radius: 3vh;
   border-bottom-left-radius: 3vh;
   transition: all 1s ease-in-out;
   z-index: 11;
   background-color: var(--info_bg);
-  padding: 8vh 2vw 4vh 2vw;
+  padding-bottom: 1vh;
+  margin: 0;
+}
+.info-accordion{
+  position:relative;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  overflow-y: scroll;
+  top: 8vh; /* set max-height to height of containing div */
+  bottom: 4vh;
+  max-height: calc(var(--main-div) + 1 * var(--main-margin) - 12vh);
+  border-radius: 1vh;
+}
+.info-accordion::-webkit-scrollbar {
+  display: none;
 }
 
 .info_div_active{
@@ -294,6 +313,10 @@ html,body {
   left: calc(2 * var(--main-margin));
   transform: scale(1);
 }
+.accordion p {
+  padding: 2vh;
+}
+
 
 .bottom-div {
   padding: 0.3vw;
@@ -347,4 +370,65 @@ html,body {
   flex: 2 0;
 
 
+}
+
+
+.accordion {
+  border-radius: 1vh;
+  overflow: hidden;
+  height: 6vh;
+  background-color: var(--accordion_bg);
+  color: var(--accordion_color);
+  z-index: 0;
+  transition: height 0.5s ease-in-out;
+  position: relative;
+  margin-bottom: 1vh;
+
+
+}
+
+.accordion button {
+  display: flex;
+  align-items: center;
+  border-radius: 1vh;
+  cursor: pointer;
+  /* margin-bottom: 1vh; */
+  width: 100%;
+  height: 6vh;
+  border: none;
+  text-align: left;
+  top: 0;
+  z-index: 2;
+  position: absolute;
+  background-color: var(--accordion_bg);
+  transition: color 0.4s ease-in-out;
+  font-size: calc(10px + 1vh);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+}
+
+.accordion button:hover {
+  background-color: var(--accordion_hover_bg);
+}
+
+.accordion div{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+  z-index: 1;
+  height:fit-content;
+}
+/* .info-div .div-active{
+  height: 16vh;
+} */
+.accordion .active{
+  top: 6vh;
+  bottom: 0;
+  height:fit-content;
+
+}
+
+.capitalize {
+  text-transform: capitalize;
 }

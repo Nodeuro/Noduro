@@ -152,12 +152,12 @@ contextBridge.exposeInMainWorld("noduro", {
         const pythonProcess = spawn(pythonExecutable, [filePath]);
     
         pythonProcess.stdout.on('data', (data) => {
-        // Handle output from the Python script if needed
-        const imageBase64 = data.toString().trim().split(' ');
-        // Split the data string based on spaces
-        // Decode the base64 image data
-        window.postMessage({type: 'imageData', payload: imageBase64}, '*');
-        
+            // Handle output from the Python script if needed
+            data = data.toString().trim();
+            data = data.split(" ");
+            // Split the data string based on spaces and get the first part
+            // Decode the base64 image data
+            window.postMessage({type: 'imageData', payload: data}, '*');
         });
         
         pythonProcess.stderr.on('data', (data) => {
