@@ -146,14 +146,14 @@ html, body {
   
 }
 
-.text-opened {
+.text_opened {
   padding: 1.25vw 0 1.25vw var(--recommendation-margin);
 }
 
 
 
 
-.recommended .scrolling-wrapper{
+.recommended .scrolling_wrapper{
   margin: 0;
   background: none;
   font-size: 3rem;
@@ -161,7 +161,7 @@ html, body {
   padding: 0 0 3vh 0;
 }
 
-.scrolling-wrapper .left{
+.scrolling_wrapper .left{
   width: var(--scrolling-margin);
   top: 0;
   height: var(--vid_height);
@@ -174,7 +174,7 @@ html, body {
   z-index: 9999;
   pointer-events: none; /* added to make the element not clickable */
 }
-.scrolling-wrapper .right{
+.scrolling_wrapper .right{
   width: var(--scrolling-margin);
   top: 0;
   height: var(--vid_height);
@@ -187,20 +187,21 @@ html, body {
   z-index: 9999;
   pointer-events: none; /* added to make the element not clickable */
 }
-.scrolling-wrapper .before{
+.scrolling_wrapper .before{
   opacity: 0;
   transition: opacity 1s ease;
   transition-delay: 0.5s;
 
 }
-.scrolling-wrapper .box_appear{
+.scrolling_wrapper .box_appear{
   transition: opacity 1s ease;
   transition-delay: 0.5s;
   opacity: 1;
 }
 
 
-.recommended .scrolling-div{
+.recommended .scrolling_div{
+  display: flex;
   background-attachment: scroll;   
   width: auto;
   height: var(--vid_height);
@@ -216,7 +217,7 @@ html, body {
   overflow-y: hidden;
   white-space: nowrap;
 }
-.recommended .open-scrolling-div{
+.recommended .open_scrolling_div{
   margin-right: var(--recommendation-margin);
   margin-left: var(--recommendation-margin);
   border-radius: 2vh;
@@ -233,7 +234,7 @@ html, body {
 } */
 
 
-.recommended .scrolling-div::-webkit-scrollbar {
+.recommended .scrolling_div::-webkit-scrollbar {
   width: 0;
   height: 0;
   background-color: transparent;
