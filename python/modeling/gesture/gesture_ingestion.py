@@ -10,7 +10,7 @@ from sklearn.linear_model import LogisticRegression, RidgeClassifier
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.metrics import accuracy_score # Accuracy metrics 
 import pickle 
-from modeling.gesture.gesture_tracker import gesture_tracker
+from modeling.gesture.gesture_tracker_timing_study import gesture_timing
 import noduro
 from datetime import datetime
 import cv2
@@ -21,7 +21,7 @@ import time
 # initialize mediapipe
 import modeling.gesture.pose_manipulation.pose_standardizer as pose_standardizer
 import noduro_code.read_settings as read_settings
-class gesture_data_ingestion(gesture_tracker):
+class gesture_data_ingestion(gesture_timing):
     def __init__(self,):
         super().__init__(eye = True, face = True, hand = True, pose = True, eye_confidence = 0.7, face_confidence= 0.7, hand_confidence = 0.7, pose_confidence = 0.7,number_of_hands = 2,  frameskip = True)
         self.settings, _ = read_settings.get_settings()
@@ -114,6 +114,9 @@ class gesture_data_ingestion(gesture_tracker):
             self.train_multiple_videos_of_same_gesture_using_camera(save_vid_folder = cwd, certain = False)
         if existing_files is not None:
             self.train_gesture_using_folder_videos_recurse(cwd)
+    def while_processing(self, frame, process):
+        super().while_processing(frame, process)
+        
 
     def convert_video_to_csv_files(self, file : str, result_file_names : list, remove_frames : int = 50) -> None:   
         self.video_analysis(video = file,result_video = None,frame_skip = 1, standardize_pose = True) #analyze the video and get a list of the results
@@ -146,7 +149,7 @@ class gesture_data_ingestion(gesture_tracker):
                     train_again = noduro.check_boolean_input(input("would you like to train one more video?"))
                     break
                 except:
-                    # print("please try again")
+                    print("please try again")
             if train_again: #user decided to not train another model. 
                 continue
             else:

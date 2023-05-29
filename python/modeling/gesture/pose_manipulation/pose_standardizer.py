@@ -177,3 +177,24 @@ def center_and_scale_from_given(points, gpdict_flattened, moving_average = None)
             a = points[key].landmark
             ret.append([((a[val].x,a[val].y,a[val].z)-center)/curr_scale for val in value])
     return ret,curr_scale
+
+
+def center_pose(points): #use the eye for scaling, and the chest as a centering value
+    chest = DICT["center"]["pose"]["chest"]; 
+    center = np.mean([(points["pose"].landmark[c].x,points["pose"].landmark[c].y,points["pose"].landmark[c].z) for c in chest],axis = 0)
+    return center #return ratio between size of current image and SCALE value. 
+
+def center_from_raw(points, gpdict): #derived point values and the gesture point dictionary
+    if "face" in points.keys() and "pose" in points.keys():
+        center = center_pose(points)
+    # else:
+        # print("no face and/or pose")
+    ret = []
+    for key, value in gpdict.items():
+        value = [x for v in value.values() for x in v]
+        if points[key] == None:
+            value = [(np.nan,np.nan,np.nan) for v in value]
+        else:
+            value = [((points[key].landmark[val].x,points[key].landmark[val].y,points[key].landmark[val].z)-center) for val in value]
+        ret.append(value)
+    return ret

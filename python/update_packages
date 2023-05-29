@@ -1,0 +1,18 @@
+import subprocess
+import noduro
+# Run the pip freeze command to get a list of installed packages
+result = subprocess.run(['pip', 'freeze'], stdout=subprocess.PIPE)
+
+# Decode the output of the command to a string
+output = result.stdout.decode('utf-8')
+
+# Split the output into a list of package names and versions
+packages = output.split('\n')
+
+# Remove any empty strings from the list
+packages = list(filter(None, packages))
+
+# Write the list of packages to a requirements.txt file
+with open(noduro.subdir_path('requirements.txt'), 'w') as f:
+    for package in packages:
+        f.write(package)

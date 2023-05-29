@@ -26,19 +26,30 @@ The class takes a frameskip feature, that skips analysis to maximize frame per s
 By default, propietary points are tracked as opposed to all of them, with selected values being chosen to maximize runtime viability whilst maninting accuracy.
 The start, stop, and while procesing functions all serve as placeholders for subclasses to allow for added functionality within the gesture tracking base, as it is a closed loop process without such options"""
 import base64     
-# encoded_frames = multiprocess.Queue()
-# def encode_and_send_frame(image, output_queue):
-#     output_queue.put(image)
-# def send_to_js(lock, input_queue):
-#     lock.acquire()
-#     try:
-#         while True:
-#             not_encoded_frame = input_queue.get()
-#             # Do whatever processing you need with the encoded frame
-#             print(base64.b64encode(cv2.imencode('.jpg', not_encoded_frame)[1].tobytes()).decode('ascii'))
-#     finally:
-#         lock.release()
-class gesture_tracker(gesture_base):
+
+class gesture_timing(gesture_base):
+    def __init__(self, eye : bool = True, face : bool = True, hand : bool = True, pose : bool = True,
+                eye_confidence : float = 0.7, face_confidence : float = 0.7,
+                hand_confidence : float = 0.7, pose_confidence : float  = 0.7,
+                number_of_hands : int = 2, frameskip = False, app_settings = None):
+        super().__init__(eye, face, hand, pose, eye_confidence, face_confidence, hand_confidence, pose_confidence, number_of_hands, frameskip)
+        if app_settings is None:
+            try:
+                file = noduro.subdir_path(read_settings.get_settings()[0]["filesystem"]["app_user_settings"])
+                if os.stat(file).st_size == 0:
+                    file = noduro.subdir_path(read_settings.get_settings()[0]["filesystem"]["app_settings"])
+                # Open the JSON file
+                with open(file) as f:
+                    # Load the JSON data into a dictionary
+                    data = json.load(f)["video"]
+                self.etc["app_settings"] = data
+            except:
+                pass
+        else:
+            self.etc["app_settings"] = app_settings
+        self.etc["send_to_js"] = {}
+
+
     def draw_holistic(self, frame, results, scalar = 1): #run the drawing algorithms
         # self.draw_face_proprietary(frame, results.face_landmarks, False,scalar)
         self.draw_pose_proprietary(frame, results.pose_landmarks, False,scalar)
@@ -47,7 +58,7 @@ class gesture_tracker(gesture_base):
             frame,displays, focus =  self.eyes(frame, results)
             if displays is not None:
                 self.etc["screen_elements"] = displays
-            self.etc["focus"] = np.round(focus,3)
+            self.etc["send_to_js"]["focus"] = np.round(focus,3)
         return frame
     
     def eyes(self, frame, landmarks):
@@ -146,18 +157,9 @@ class gesture_tracker(gesture_base):
         self.etc["frame_index"] = -1
         self.track = {}
         self.etc["elapsed_time"] = time.time()
-        # lock = multiprocess.Lock()
-        # printing_process = multiprocess.Process(target=send_to_js, args=(lock, encoded_frames))
-        # printing_process.start()
 
         while True:
             self.etc["frame_index"] +=1
-            
-            # if time.time() - self.etc["elapsed_time"] > 30:
-            #     printing_process.terminate()
-            #     printing_process = multiprocess.Process(target=send_to_js, args=(encoded_frames,))
-            #     printing_process.start()
-            #     self.etc["elapsed_time"] = time.time()            
             self.track[self.etc["frame_index"]] = {"start" : time.time()}
             _, frame = videoCapture.read() 
             
@@ -217,7 +219,7 @@ class gesture_tracker(gesture_base):
                 frame = self.draw_holistic(frame, self.processed_frame["holistic"],self.etc["distance"])
             displays = []
             if "fps" in self.etc:
-                displays.append("FPS: " + str(self.etc["fps"]))
+                displays.append("FPS: " + str(self.etc["send_to_js"]["fps"]))
             if "gesture" in self.etc:
                 displays.append(str(self.etc["gesture"][0]) + ", " + str(self.etc["gesture"][1]))
             if "screen_elements" in self.etc:
@@ -226,27 +228,18 @@ class gesture_tracker(gesture_base):
             self.track[self.etc["frame_index"]]["displays"] = time.time() - self.track[self.etc["frame_index"]]["start"];self.track[self.etc["frame_index"]]["start"] = time.time()
             if result_vid: #write the results
                 result.write(frame)
-            # if "width" not in self.etc:
-            #     abc,self.etc["width"],self.etc["height"] = noduro.scale_image_to_window(frame)
-            # else:
-            #     abc, _, _ =noduro.scale_image_to_window(frame,self.etc["width"],self.etc["height"])
-            #Frame displays
-            # cv2.imshow("Gesture tracked. Press Q to exit", frame) #show tracking
-            # sys.stdout.write(base64.b64encode(cv2.imencode('.jpg', frame)[1].tobytes()).decode('ascii'))
             if "app_settings" in self.etc:
                 if self.etc["app_settings"]["flipVideo"] == True:
                     frame =  cv2.flip(frame, 1)
                 # if self.etc["app_settings"]["lowLight"] != -1:
                 #     frame = np.clip(frame * (1+self.etc["app_settings"]["lowLight"]/10), 0, 255).astype(np.uint8)
-            if "focus" in self.etc:
-                sys.stdout.write(base64.b64encode(cv2.imencode('.jpg', frame)[1].tobytes()).decode('ascii') + " " + str(self.etc["fps"]) + " " + str(self.etc["focus"]))
-            else:
-                sys.stdout.write(base64.b64encode(cv2.imencode('.jpg', frame)[1].tobytes()).decode('ascii') +  " " + str(self.etc["fps"]))
-            # encode_and_send_frame(frame, encoded_frames)
+            # if "focus" in self.etc[""]:
+            sys.stdout.write(base64.b64encode(cv2.imencode('.jpg', frame)[1].tobytes()).decode('ascii') + " " + str(self.etc["send_to_js"]).replace(" ","").replace("'",'"'))
+            # else:
+                # sys.stdout.write(base64.b64encode(cv2.imencode('.jpg', frame)[1].tobytes()).decode('ascii') +  " " + str(self.etc["send_to_js"]["fps"]))
             self.track[self.etc["frame_index"]]["convert_stream"] = time.time() - self.track[self.etc["frame_index"]]["start"];self.track[self.etc["frame_index"]]["start"] = time.time()
-            # cv2.imshow("Gesture tracked. Press Q to exit", frame) #show tracking    
-            # cv2.imshow("Gesture tracked. Press Q to exit", cv2.resize(frame,(int(frame.shape[1]/3), int(frame.shape[0]/3)))) #show tracking    
             if cv2.waitKey(1) == ord('q'): #stop everything
+                
                 videoCapture.release()
                 if result_vid:
                     result.release()
@@ -282,7 +275,7 @@ class gesture_tracker(gesture_base):
     
     def get_timer(self): #timers to check tracking data
         curr_reference = time.time()
-        self.etc["fps"] = np.around(self.etc["frame_skip_in_situ"]/(curr_reference - self.etc["timer"]), 2)
+        self.etc["send_to_js"]["fps"] = np.around(self.etc["frame_skip_in_situ"]/(curr_reference - self.etc["timer"]), 2)
         self.etc["timer"] = curr_reference
         for feature, value in self.visibilty_dict.items():
             if not value:
@@ -313,49 +306,12 @@ class gesture_tracker(gesture_base):
     def start(self):
         self.gpdict_flatten = standardize.flatten_gesture_point_dict_keys_to_list(self.gesture_point_dict)
 if __name__ == '__main__':
-    # start = time.time()
-    # while True:
-    #     # Read a message from the parent process
-    #     line = sys.stdin.readline()
-    #     if line or time.time() - start > 10:
-    #         break
-
-    file = noduro.subdir_path(read_settings.get_settings()[0]["filesystem"]["app_user_settings"])
-    if os.stat(file).st_size == 0:
-        file = noduro.subdir_path(read_settings.get_settings()[0]["filesystem"]["app_settings"])
-
-    # Open the JSON file
-    with open(file) as f:
-        # Load the JSON data into a dictionary
-        data = json.load(f)["video"]
 
         # Now you can use the dictionary as needed
-    a = gesture_tracker(frameskip = True, app_settings = data)
+    a = gesture_timing(frameskip = True)
 
     # Parse the message as JSON
     
     a.averages = {}
-    # a.video_analysis("C:/Users/aadvi/Desktop/IMG_1004.mp4", result_video = "C:/Users/aadvi/Desktop/vid.mp4")
-
-    # a.video_analysis("C:/Users/aadvi/Downloads/pexels-mikhail-nilov-6740725-1080x1920-25fps.mp4", None, frame_skip=1, standardize_pose = True)
     a.realtime_analysis()
 
-
-        # def end(self, video_scalar):
-            
-        #     data = self.track
-        #     averages = {}
-        #     num_entries = len(data)  # Number of entries in the dictionary
-
-        #     for key in data[0].keys():
-        #         values = [data[i][key] for i in range(num_entries)]
-        #         average = sum(values) / num_entries
-        #         averages[key] = average   
-        #     averages = averages
-        #     self.averages = averages
-
-        # for i in np.arange(0.1,1.01,0.05):
-        #     printing_process = multiprocess.Process(target=self.send_to_js, args=(encoded_frames,))
-        #     printing_process.start()
-        #     a.video_analysis("C:/Users/aadvi/Downloads/pexels-mikhail-nilov-6740725-1080x1920-25fps.mp4", None, frame_skip=1, standardize_pose = True, video_scalar = i)
-        #     printing_process.terminate()
