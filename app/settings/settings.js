@@ -25,10 +25,10 @@ var track;
 var default_settings_path = "/src/settings/default_settings.json";
 var user_settings_path = "/src/settings/user_settings.json";
 
-var theme_button = document.getElementById("triple-button");
-var darkButton = document.getElementById("toggle-button-3");
-var lightButton = document.getElementById("toggle-button-1");
-var systemButton = document.getElementById("toggle-button-2");
+var theme_button = document.getElementById("triple_button");
+var darkButton = document.getElementById("toggle_button_3");
+var lightButton = document.getElementById("toggle_button_1");
+var systemButton = document.getElementById("toggle_button_2");
 
 var camera_object = document.getElementById("camera_test");
 
@@ -168,16 +168,16 @@ function during(){
     });
 
 
-    var triStateToggleButtons = document.querySelectorAll(".theme-button button");
+    var triStateToggleButtons = document.querySelectorAll(".theme_button button");
     function activateButton(button) {
         var id = button.getAttribute("id");
         button.classList.add("active");
-        if (id == "toggle-button-3") {
+        if (id == "toggle_button_3") {
             theme_val = "Dark";
             window.darkMode.dark();
             theme_button.style.backgroundImage =
                 dark_color;
-        } else if (id == "toggle-button-1") {
+        } else if (id == "toggle_button_1") {
             theme_val = "Light";
             window.darkMode.light();
             theme_button.style.backgroundImage =
@@ -219,18 +219,6 @@ function during(){
     });
 
 
-    // var isPageDirty = false;
-    // function setDirty() {
-    //   isPageDirty = true;
-    // }
-
-    // // Function to set the page dirty flag when changes are made
-
-    // // Attach event listener to detect changes on inputs, selects, and textareas
-    // var formElements = document.querySelectorAll('.option');
-    // for (var i = 0; i < formElements.length; i++) {
-    //   formElements[i].addEventListener('change', setDirty);
-    // }
 
     delete_passwords.addEventListener('click', () => {
         var check = confirm("Are you sure you want to delete all saved passwords?");
@@ -250,6 +238,20 @@ function during(){
         
     });
 }
+
+var isPageDirty = false;
+function setDirty() {
+  isPageDirty = true;
+}
+
+// // Function to set the page dirty flag when changes are made
+
+// // Attach event listener to detect changes on inputs, selects, and textareas
+var formElements = document.querySelectorAll('.option');
+for (var i = 0; i < formElements.length; i++) {
+  formElements[i].addEventListener('change', setDirty);
+}
+
 
 initialize();
 during();
@@ -281,3 +283,15 @@ document.getElementById('submit_button').addEventListener('click', () => {
     confirm("Settings saved successfully!");
 });
 
+
+
+function check_redirect(url) {
+    if(!isPageDirty){
+        window.location.href = url;
+        return;
+    }
+    if (confirm("Are you sure you want to leave? Your changes will not be saved.")) {
+        window.location.href = url;
+    }
+
+}

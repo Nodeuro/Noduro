@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer, process } = require("electron");
+const { contextBridge, ipcRenderer, process, shell} = require("electron");
 let darkmodeVal = localStorage.getItem("darkmode");
 const fs = require("fs");
 const path = require("path");
@@ -131,6 +131,10 @@ contextBridge.exposeInMainWorld("firebase", {
 });
 
 contextBridge.exposeInMainWorld("noduro", {
+    openExternal: (url) => {
+        shell.openExternal(url);
+        console.log("open external request sent to preload");
+    },
     readJSONFile: (filePath) => {
         try {
             const data = fs.readFileSync(path.join(__dirname + filePath), 'utf-8');

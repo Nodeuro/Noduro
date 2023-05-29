@@ -20,17 +20,17 @@ for (let i = 0; i < noduro_instruction_data.steps.length; i++) {
 const reload_button = document.querySelector('.reload');
 const playButton = document.getElementById('play_button');
 const playButton_Icon = document.getElementById('play_button_icon'); 
-const timelineProgress = document.querySelector('.timeline-progress');
-const timeline_clickable = document.querySelector('.timeline-clickable');
+const timelineProgress = document.querySelector('.timeline_progress');
+const timeline_clickable = document.querySelector('.timeline_clickable');
 const video_element = document.getElementById("instructional_content");
-const info_button = document.querySelector(".info-button");
-const info_div = document.querySelector('.info-div');
-const accordion_div = document.querySelector('.info-accordion');
+const info_button = document.querySelector(".info_button");
+const info_div = document.querySelector('.info_div');
+const accordion_div = document.querySelector('.info_accordion');
 
 var info_open = false;
 var focus_display = document.getElementById("focus_display");
 const fps_div = document.getElementById("fps_div");
-const timelineContainer = document.querySelector('.timeline-container');
+const timelineContainer = document.querySelector('.timeline_container');
 
 const time_on_step = document.getElementById("time_on_step");
 const step_counter = document.getElementById("step_counter");
@@ -139,7 +139,7 @@ var first_time = true;
           for (let i = 1; i < steps.length; i++) {
             const step = steps[i];
             const stepDiv = document.createElement('div');
-            stepDiv.classList.add('timeline-split');
+            stepDiv.classList.add('timeline_split');
             const x = Math.round(step.start / video_element.duration * timelineContainer.offsetWidth);
             stepDiv.style.left = x + "px";
             timelineContainer.appendChild(stepDiv);

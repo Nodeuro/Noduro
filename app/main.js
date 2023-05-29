@@ -94,7 +94,7 @@ const createWindow = () => {
         mainWindow.webContents.openDevTools();
         mainWindow.show();
     });
-
+    
     mainWindow.loadFile("index.html");
 
     // mainWindow.webContents.send('reset_scroll');

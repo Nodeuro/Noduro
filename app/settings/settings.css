@@ -129,7 +129,7 @@ html, body {
   transition: all 1s ease;
 }
 
-.main-div{
+.main_div{
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
@@ -140,7 +140,7 @@ html, body {
   left: 0;
   top: var(--header_height);
 }
-.left-bar{
+.left_bar{
   width:20%;
   height: 90vh;
   position:relative;
@@ -148,7 +148,7 @@ html, body {
   background-color: var(--left-bar-background-color);
   
 }
-.right-bar{
+.right_bar{
   display: flex;
   flex-flow: column nowrap;
   width:80%;
@@ -158,12 +158,12 @@ html, body {
   overflow-x: hidden;
   color: var(--right-bar-text-color);
 }
-.right-bar::-webkit-scrollbar {
+.right_bar::-webkit-scrollbar {
   width: 0;
   height: 0;
 }
 
-.sub-item{
+.sub_item{
   display: flex;
   flex-flow: column wrap;
   justify-content: left;
@@ -177,21 +177,21 @@ html, body {
   box-shadow: 0px 0px 2px 2px var(--shadow); */
 }
 
-.sub-item p{
+.sub_item p{
   margin: 0;
   padding: 0;
   font-size: 2.4vh;
   font-weight: 500;
   color: var(--sub-heading-color);
 }
-.sub-item .split{
+.sub_item .split{
   padding:0;
   display:flex;
   flex-flow: row nowrap;
   align-items: center;
 }
 
-.sub-item .split-space{
+.sub_item .split_space{
   padding-right: 2vw;
   display: inline-grid;
   grid-template-columns: auto 1fr;
@@ -201,7 +201,7 @@ html, body {
   justify-content: space-between;
 
 }
-.sub-item .split-space-2col{
+.sub_item .split_space_2col{
   padding-right: 2vw;
   width:fit-content;
   display: grid;
@@ -210,12 +210,12 @@ html, body {
   justify-content: space-between;
   white-space: nowrap;
 }
-.split-space div, .split-space-2col div{
+.split_space div, .split_space_2col div{
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
 }
-.split-space label, .split-space-2col label{
+.split_space label, .split_space_2col label{
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
@@ -226,13 +226,13 @@ html, body {
   margin: 0;
   padding: 0;
 }
-.accent-line {
+.accent_line {
   border-bottom: 1.5px solid var(--accent-line-color);
   width: 85%;
   margin: 0vh 0vw 2vh 0vw;
 }
 
-.sub-heading {
+.sub_heading {
   margin: 0;
   padding: 0;
   font-size: 3vh;
@@ -243,7 +243,7 @@ html, body {
 
 
 
-.triple-button {
+.triple_button {
   display: flex;
   width:fit-content;
   height:fit-content;
@@ -255,12 +255,12 @@ html, body {
   box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.3);
 
 }
-.theme-button{
+.theme_button{
   padding:0;
   margin:0;
   background-color: transparent;
 }
-.theme-button button {
+.theme_button button {
   font-family: "Poppins", sans-serif;
   font-weight: 600;
   width: 20%;
@@ -304,7 +304,7 @@ html, body {
 
 
 
-.custom-slider {
+.custom_slider {
   -webkit-appearance: none;
   appearance: none;
   height: var(--slider-scale);
@@ -313,7 +313,7 @@ html, body {
   outline: none;
 }
 
-.custom-slider::-webkit-slider-thumb {
+.custom_slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: calc(var(--slider-thumb-scalar) * var(--slider-scale));
@@ -361,7 +361,7 @@ html, body {
   margin-bottom: 0.5vh;
 }
 
-.toggle-switch {
+.toggle_switch {
   display: flex;
   margin: 0.5vh 1vw 0.5vh 1vw;
   width: calc(2 * var(--toggle-button-scale));
@@ -373,13 +373,13 @@ html, body {
 }
 
 
-.toggle-switch input[type="checkbox"] {
+.toggle_switch input[type="checkbox"] {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-.toggle-switch-label {
+.toggle_switch_addon {
   display: block;
   position: absolute;
   top: 0;
@@ -392,7 +392,7 @@ html, body {
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.toggle-switch-label:after {
+.toggle_switch_addon:after {
   content: "";
   position: absolute;
   top: calc(0.1 * var(--toggle-button-scale));
@@ -404,11 +404,11 @@ html, body {
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.toggle-switch input[type="checkbox"]:checked + .toggle-switch-label {
+.toggle_switch input[type="checkbox"]:checked + .toggle_switch_addon {
   background-color: var(--toggle-switch-on-color);
 }
 
-.toggle-switch input[type="checkbox"]:checked + .toggle-switch-label:after {
+.toggle_switch input[type="checkbox"]:checked + .toggle_switch_addon:after {
   transform: translateX(var(--toggle-button-scale));
 }
 
