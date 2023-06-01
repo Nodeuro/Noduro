@@ -4,22 +4,64 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Aadvik Vashist",
   "license": "ISC",
   "devDependencies": {
+    "@electron-forge/cli": "^6.1.1",
+    "@electron-forge/maker-deb": "^6.1.1",
+    "@electron-forge/maker-rpm": "^6.1.1",
+    "@electron-forge/maker-squirrel": "^6.1.1",
+    "@electron-forge/maker-zip": "^6.1.1",
     "electron": "^23.3.0"
   },
   "dependencies": {
+    "@mediapipe/tasks-vision": "^0.10.0",
     "chart.js": "^4.3.0",
     "electron-google-oauth": "^1.0.1",
     "electron-json-storage": "^4.6.0",
+    "electron-squirrel-startup": "^1.0.0",
     "firebase": "^9.22.0",
     "firebase-admin": "^11.8.0",
     "google-auth-library": "^8.7.0",
     "keytar": "^7.9.0"
   },
-  "description": "Noduro is an electron-based cross-platform app that utilizes HTML, CSS, Javascript, and Python to provide Daily Living Skill (DLS) instruction to children and young adults with disabilities. The installation process for developers is simple and straightforward. Here's  the process:"
+  "description": "Noduro is an electron-based cross-platform app that utilizes HTML, CSS, Javascript, and Python to provide Daily Living Skill (DLS) instruction to children and young adults with disabilities. The installation process for developers is simple and straightforward. Here's  the process:",
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "extraResource": [
+          "./src",
+          "./lessons",
+          "./dist"
+        ]
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "electron_quick_start"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  }
 }

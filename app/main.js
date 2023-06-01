@@ -226,6 +226,15 @@ const createWindow = () => {
             }
             
         });
+        ipcMain.handle("noduro:folder_picker", async (event) => {
+            const result = await dialog.showOpenDialog(mainWindow, { properties: ['openDirectory'] });
+            if (!result.canceled) {
+                return result.filePaths[0];
+            }
+            else{
+                return null
+        }
+        });
 }
 const gotTheLock = app.requestSingleInstanceLock();
 

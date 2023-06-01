@@ -1,11 +1,10 @@
-const { contextBridge, ipcRenderer, process, shell} = require("electron");
+const { contextBridge, ipcRenderer, shell} = require("electron");
 let darkmodeVal = localStorage.getItem("darkmode");
 const fs = require("fs");
 const path = require("path");
-const spawn  = require('child_process').spawn;
-if (require('os').platform() == "win32") var pythonExecutable ="../noduro_python/Scripts/python.exe";
-else var pythonExecutable = "../noduro_python/bin/python";
-
+const {spawn, exec}  = require('child_process');
+// if (require('os').platform() == "win32") var pythonExecutable ="../noduro_python/Scripts/python.exe";
+// else var pythonExecutable = "../noduro_python/bin/python";
 
 async function sign_in(email,password,user_signing_in){
     console.log("sign in request sent to preload");
@@ -152,9 +151,28 @@ contextBridge.exposeInMainWorld("noduro", {
             console.error('Error saving object as JSON:', error);
         }
     },
-    startPythonFile: (filePath, settings) => {
-        const pythonProcess = spawn(pythonExecutable, [filePath]);
-    
+    // startPythonFile: (filePath, settings) => {
+
+    //     const pythonProcess = spawn(pythonExecutable, [filePath]);
+
+    //     pythonProcess.stdout.on('data', (data) => {
+    //         // Handle output from the Python script if needed
+    //         data = data.toString().trim();
+    //         data = data.split(" ");
+    //         // Split the data string based on spaces and get the first part
+    //         // Decode the base64 image data
+    //         window.postMessage({type: 'imageData', payload: data}, '*');
+    //     });
+        
+    //     pythonProcess.stderr.on('data', (data) => {
+    //     // Handle errors from the Python script if needed
+    //     console.error(`stderr: ${data}`);
+    //     });
+    // },
+    startExeFile: (filePath, settings) => {
+
+        const pythonProcess = spawn(filePath);
+
         pythonProcess.stdout.on('data', (data) => {
             // Handle output from the Python script if needed
             data = data.toString().trim();
@@ -172,6 +190,15 @@ contextBridge.exposeInMainWorld("noduro", {
     sendVideoFrame: (frameData) => {
         ipcRenderer.send('videoFrame', frameData);
     },
+    get_lesson_path: (folder_path) => {
+        
+        var read = fs.readFileSync(path.join(folder_path, "data.json"), 'utf-8');
+        var data = JSON.parse(read);
+        for (var metaPath in data.meta){
+            data.meta[metaPath] = path.join(folder_path, data.meta[metaPath])
+        }
+        return data;
+    },
     get_lesson_data: (lesson_id) => {
         try {
             var full_path = path.join(__dirname, "lessons", lesson_id, "data.json");
@@ -186,6 +213,10 @@ contextBridge.exposeInMainWorld("noduro", {
             return null;
         }
     },
+    folder_picker: async () => {
+        const file = await ipcRenderer.invoke('noduro:folder_picker');
+        return file;
+    }
 });
 
 
