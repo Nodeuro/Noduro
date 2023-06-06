@@ -20,11 +20,35 @@ const commonResolutions = [
     [1280, 720] // 720p
 ];
 
+var settings_folder = document.getElementById("settings_folder");
+var settings_folder_text = document.getElementById("settings_folder_text");
+var lessons_folder = document.getElementById("lessons_folder");
+var lessons_folder_text = document.getElementById("lessons_folder_text");
+if (localStorage.getItem("settings_folder") != null) {
+    settings_folder_text.innerHTML = "Settings Folder: " + localStorage.getItem("settings_folder");
+}
+if (localStorage.getItem("lessons_folder") != null) {
+    lessons_folder_text.innerHTML = "Lessons Folder: " + localStorage.getItem("lessons_folder");
+}
+settings_folder.addEventListener("click", async function () {
+    var folder =  await window.noduro.folder_picker();
+    settings_folder_text.innerHTML = "Settings Folder: " + folder;
+    localStorage.setItem("settings_folder", folder);
+
+    // Do something with the selected folder path
+});
+lessons_folder.addEventListener("click", async function () {
+    var folder =  await window.noduro.folder_picker();
+    lessons_folder_text.innerHTML = "Lessons Folder: " + folder;
+    localStorage.setItem("lessons_folder", folder);
+    // Do something with the selected folder path
+});
+
+// /Users/aadvik/Desktop/Important Projects/Noduro/data/settings/default_settings.json
 var theme_val;
 var track;
-
-var default_settings_path = "data/settings/default_settings.json"
-var user_settings_path ="data/settings/user_settings.json";
+var default_settings_path = localStorage.getItem("settings_folder") + "/default_settings.json"
+var user_settings_path = localStorage.getItem("settings_folder") + "/user_settings.json";
 
 var theme_button = document.getElementById("triple_button");
 var darkButton = document.getElementById("toggle_button_3");
@@ -56,10 +80,10 @@ var delete_passwords = document.getElementById("password_delete");
 let canvas;
 let context;
 try{
-    var settings_file = window.noduro.readJSONFile(user_settings_path);
+    var settings_file = window.noduro.readJSONFile(user_settings_path, true);
 }
 catch {
-    var settings_file = window.noduro.readJSONFile(default_settings_path);
+    var settings_file = window.noduro.readJSONFile(default_settings_path, true);
     console.log("Error reading user_settings.json, using default settings");
 }
 var settings = settings_file.app;
@@ -232,7 +256,7 @@ function during(){
     reset_page.addEventListener('click', () => {
         var check = confirm("Are you sure you want to reset all settings?");
         if (check==false) return;
-        window.noduro.writeJSONFile(user_settings_path,"");
+        window.noduro.writeJSONFile(user_settings_path,"",true);
         alert("Settings reset successfully!");
         
         location.reload();
@@ -280,7 +304,7 @@ document.getElementById('submit_button').addEventListener('click', () => {
     settings.privacy.anonymize_data = privacy_anonymize.checked;
     settings_file.settings = settings;
     const jsonContent = JSON.stringify(settings_file, null, 2);
-    window.noduro.writeJSONFile(user_settings_path,jsonContent);
+    window.noduro.writeJSONFile(user_settings_path,jsonContent, true);
     confirm("Settings saved successfully!");
 });
 

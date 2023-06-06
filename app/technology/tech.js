@@ -1,12 +1,14 @@
+var default_settings_path = localStorage.getItem("settings_folder") + "/default_settings.json"
+var user_settings_path = localStorage.getItem("settings_folder") + "/user_settings.json";
 
-var default_settings_path = "data/settings/default_settings.json"
-var user_settings_path ="data/settings/user_settings.json";
 try {
-	var settings = window.noduro.readJSONFile(user_settings_path).app;
+	var settings = window.noduro.readJSONFile(user_settings_path, true).app;
+	var settings_file = user_settings_path;
 }
 catch {
-	var settings = window.noduro.readJSONFile(default_settings_path).app;
+	var settings = window.noduro.readJSONFile(default_settings_path, true).app;
 	console.log("Error reading user_settings.json, using default settings");
+	var settings_file = default_settings_path;
 }
 
 const overlay = document.querySelector('.overlay');
@@ -147,8 +149,7 @@ async function main() {
 	// window.noduro.startExeFile("./dist/main/gesture_tracker_timing_study.py.exe", settings)
 	// window.noduro.startPythonFile("../python/run.py")
 	// var cam = document.getElementById('camera');
-
-	initialize_model(fps_div, focus_display, camera_video_element, camera_canvas, overlay_canvas, camera_context, overlay_context);
+	initialize_model(fps_div, focus_display, camera_video_element, camera_canvas, overlay_canvas, camera_context, overlay_context, 3, settings_file);
 	window.addEventListener('message', (event) => {
 		if (event.data.type === 'started') {
 				setTimeout(() => {

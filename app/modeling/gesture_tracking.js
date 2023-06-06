@@ -94,8 +94,8 @@ function initialize_model(fps_div, focus_text, videoElement, camera_canvas, over
     if (skip == undefined) {
         var skip = 3;
     }
-    if (gpdict == undefined) {
-        var gpdict = window.noduro.readJSONFile("data/settings/default_settings.json").model.points;
+    if (typeof gpdict === 'string' || gpdict instanceof String) {
+        var gpdict = window.noduro.readJSONFile(gpdict, true).model.points;
     }
     if (camera_context == undefined) camera_context = camera_canvas.getContext("2d");
     if (overlay_context == undefined) overlay_context = overlay_canvas.getContext("2d");

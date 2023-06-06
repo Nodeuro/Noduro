@@ -484,3 +484,33 @@ html, body {
   width: 100%;
 
 }
+
+
+
+.normal_button{
+    font-family: "Poppins", sans-serif;
+    font-size: 2vw;
+    border: none;
+    border-radius: 2rem;
+    text-align: center;
+    display: inline-block;
+    /* padding: 0.6rem auto 0.6rem; */
+    background-color: var(--submit_button_bg_hover);
+    color: var(--submit_button_text_hover);
+
+    -webkit-transition: color 0.6s, background-color 1s,
+        -webkit-transform 0.3s ease-out;
+    transition: color 0.6s ease, background-color 1s ease,
+        transform 0.3s ease-out;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+
+}
+.normal_button:hover {
+  background-color: var(--submit_button_bg);
+  color: var(--submit_button_text);
+
+  transform: scale(1.1, 1.1);
+  -webkit-transform: scale(1.1, 1.1);
+  -moz-transform: scale(1.1, 1.1);
+}

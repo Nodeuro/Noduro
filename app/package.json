@@ -34,11 +34,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "extraResource": [
-          "./src",
-          "./lessons",
-          "./dist"
-        ]
+        "icon": "../data/icon/icon.png"
       },
       "makers": [
         {

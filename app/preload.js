@@ -134,18 +134,22 @@ contextBridge.exposeInMainWorld("noduro", {
         shell.openExternal(url);
         console.log("open external request sent to preload");
     },
-    readJSONFile: (filePath) => {
+    readJSONFile: (filePath, absolute) => {
+        if (absolute == undefined) absolute = false;
         try {
-            const data = fs.readFileSync(path.join(__dirname.split(path.sep).slice(0, -1).join(path.sep), filePath), 'utf-8');
-            const jsonObject = JSON.parse(data);
+            if (absolute) var data = fs.readFileSync(filePath, 'utf-8');
+            else var data = fs.readFileSync(path.join(__dirname.split(path.sep).slice(0, -1).join(path.sep), filePath), 'utf-8');
+                const jsonObject = JSON.parse(data);
             return jsonObject;
         } catch (error) {
             throw new Error('File does not exist');
         }
     },
-    writeJSONFile: (filePath,content) => {
+    writeJSONFile: (filePath, content,absolute) => {
+        if (absolute == undefined) absolute = false;
         try {
-            fs.writeFileSync(path.join(__dirname.split(path.sep).slice(0, -1).join(path.sep), filePath), content);
+            if (absolute) fs.writeFileSync(filePath, content);
+            else fs.writeFileSync(path.join(__dirname.split(path.sep).slice(0, -1).join(path.sep), filePath), content);
             console.log('Object saved as JSON:', filePath);
         } catch (error) {
             console.error('Error saving object as JSON:', error);
@@ -222,12 +226,18 @@ contextBridge.exposeInMainWorld("noduro", {
 
 
 // Code that forces the system mode rather than a default of white. Reflects user preference, but open to change.
-
-var files = fs.readdirSync("./lessons/");
+if (localStorage.getItem("lesson_folder") == null) {
+var all_folders = fs.readdirSync(localStorage.getItem("lessons_folder"));
 var lessons = [];
+var folders_filtered = [];
 // console.log(files);
-for (var i in files) {
-    var p = fs.readdirSync(path.join("./lessons/", i));
+for (let i = 0; i < all_folders.length; i++) {
+    try {
+        var p = fs.readdirSync(path.join(localStorage.getItem("lessons_folder"), all_folders[i]));
+    }
+    catch (error) {
+        continue;
+    }
     let image = null;
     for (const file of p) {
         const ext = path.extname(file).toLowerCase();
@@ -236,9 +246,13 @@ for (var i in files) {
             break; // stop searching after the first image is found
         }
     }
+    if (image == null) {
+        continue;
+    }
 
     // console.log(path.join("./lessons/", i, p[0]));
-    lessons.push(path.join("./lessons/", i, image));
+    lessons.push(path.join(localStorage.getItem("lessons_folder"), all_folders[i], image));
+    folders_filtered.push(all_folders[i]);
 
     // for (var ap in p) {
     //     // if (ap.includes(".png") || ap.includes(".jpg")) {
@@ -247,5 +261,6 @@ for (var i in files) {
     //     console.log(ap);
     // }
 }
-localStorage.setItem("files", JSON.stringify(files));
+localStorage.setItem("files", JSON.stringify(folders_filtered));
 localStorage.setItem("lessons", JSON.stringify(lessons));
+}
