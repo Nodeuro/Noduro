@@ -179,6 +179,16 @@ async function main() {
 			// write_fps(alt_data.fps);
 			// write_focus(alt_data.focus);
 		}
+		else if (event.data.type === 'warning') {
+			if (!video_element.paused) video_element.pause();
+
+			playButton_Icon.classList.add('bi-play-fill');
+			playButton_Icon.classList.remove('bi-pause');
+			function play(){
+				video_element.play();
+			}
+			createPopup(event.data.payload.id, event.data.payload.string, play);
+		}
 	});
 
 
@@ -374,4 +384,6 @@ async function main() {
 	});
 }
 
+
+window.me
 main();

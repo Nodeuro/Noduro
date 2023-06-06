@@ -1,0 +1,89 @@
+.popup_div{
+    z-index: 9999;
+    position:fixed;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+
+    animation: fadeIn 0.5s ease;
+    backdrop-filter: blur(10px);
+}
+
+.popup_div.fade-out {
+    animation: fadeOut 0.5s ease;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    transition-delay: 0.5s;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+.popup_div .popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: none;
+    padding: 20px;
+    min-width: 20vw;
+    min-height: 18vh;
+    border-radius: 2vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.popup p {
+    margin: 0;
+    font-size: calc(16px + 0.5vw);
+    line-height: 1.5;
+    align-self: center;
+    margin-bottom: 10px;
+    font-family: "Poppins", sans-serif;
+    text-transform: capitalize;
+
+}
+
+.popup button {
+    font-family: "Poppins", sans-serif;
+
+    align-self: center;
+    font-size: calc(15px + 0.3vw);    
+    padding: 5px 10px;
+    background-color: rgb(99, 101, 93);
+    width: 80%;
+    color: #fff;
+    border: none;
+    border-radius: 0.5vw;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.popup button:hover {
+    background-color: #626262;
+    transform: scale(1.05, 1.05);
+}
+
+.popup button:active {
+    transform: scale(1.15, 1.15);
+    background-color: #212121;
+
+}
