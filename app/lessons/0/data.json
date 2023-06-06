@@ -2,7 +2,7 @@
     "meta": {
         "lesson_name": "Quinoa Stir-Fry",
         "image_path": "0.jpg",
-        "video_path": "full_res.mp4"
+        "video_path": "test.mp4"
     },
     "ingredients": [
         { "name": "quinoa", "quantity": "1 cup" },
@@ -71,17 +71,17 @@
             "category": "Cooking",
             "step": "Cook Quinoa",
             "start": 30,
-            "end": 630,
-            "duration": 600,
+            "end": 50,
+            "duration": 20,
             "description": "Cook the rinsed quinoa in water according to package instructions."
         },
         {
             "index": 4,
             "category": "Cooking",
             "step": "Heat Oil",
-            "start": 630,
-            "end": 640,
-            "duration": 10,
+            "start": 50,
+            "end": 80,
+            "duration": 30,
             "description": "Heat olive oil in a pan over medium heat."
         },
         {

@@ -136,7 +136,7 @@ contextBridge.exposeInMainWorld("noduro", {
     },
     readJSONFile: (filePath) => {
         try {
-            const data = fs.readFileSync(path.join(__dirname + filePath), 'utf-8');
+            const data = fs.readFileSync(path.join(__dirname.split(path.sep).slice(0, -1).join(path.sep), filePath), 'utf-8');
             const jsonObject = JSON.parse(data);
             return jsonObject;
         } catch (error) {
@@ -145,7 +145,7 @@ contextBridge.exposeInMainWorld("noduro", {
     },
     writeJSONFile: (filePath,content) => {
         try {
-            fs.writeFileSync(path.join(__dirname + filePath), content);
+            fs.writeFileSync(path.join(__dirname.split(path.sep).slice(0, -1).join(path.sep), filePath), content);
             console.log('Object saved as JSON:', filePath);
         } catch (error) {
             console.error('Error saving object as JSON:', error);

@@ -4,11 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="google-signin-client_id"
     content="135381014052-hs8qc6avk8chp3epae7lhv3jfot0stcp.apps.googleusercontent.com">
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/holistic/holistic.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="./tech.css" />
   <link rel="stylesheet" href="../global/icon/icons.css" />
   <link rel="stylesheet" href="../global/global_header.css" />
 
-  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval'  https://cdn.jsdelivr.net/npm/@mediapipe/;" />
 </head>
 
 <body>
@@ -41,14 +45,18 @@
     </div>
     <div class="video_div">
 
-      <video class="camera"  id = "instructional_content"autoplay>
+      <video class="video_element"  id = "instructional_content"autoplay>
         <source type="video/mp4">
       </video>
     </div>
 
     <div class="camera_div">
-      <canvas class="camera" id="camera" width="1920" height="1080"></canvas>
+      <!-- <canvas class="camera" id="camera" width="1920" height="1080"></canvas> -->
+      <video class="input_video"></video>
+      <canvas class = "canvas" id = "output_video" width="1920" height="1080"></canvas>
+      <canvas class = "canvas" id = "results_overlay" width="1920" height="1080"></canvas>
     </div>
+
   </div>
 
   <div class = "bottom_div">
@@ -60,5 +68,7 @@
 
 </body>
 <script src="./tech.js"></script>
+<script src="../modeling/gesture_tracking.js"></script>
+<script src = "../modeling/eye.js"></script>
 
 </html>

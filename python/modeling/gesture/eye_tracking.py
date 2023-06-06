@@ -21,11 +21,12 @@ def pythag(a,b):
     return np.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
 
 def distance_between_line_and_point( p1,p2,p3):
-    d= (p3[0]-p1[0])*(p2[1]-p1[1])-(p3[1]-p1[1])*(p2[0]-p1[0])
+    d= (p3[0]-p1[0])*(p2[1]-p1[1])-(p3[1]-p1[1])*(p2[0]-p1[0]) #0.10720277702381154
     if d > 0:
         d = 1
     else:
         d = -1
+    x = linalg.norm(np.cross(p2-p1, p1-p3))
     return linalg.norm(np.cross(p2-p1, p1-p3))/linalg.norm(p2-p1)*d
 
 def nose_line_angle(list_of_values):

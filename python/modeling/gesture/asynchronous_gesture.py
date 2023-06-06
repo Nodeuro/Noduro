@@ -103,3 +103,4 @@ if __name__ == '__main__':
     a.averages = {}
     a.realtime_analysis()
 
+python\modeling\gesture\gesture_tracker_timing_study.py

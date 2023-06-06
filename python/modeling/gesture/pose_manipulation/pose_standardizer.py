@@ -15,8 +15,10 @@ except:
     # print("no scale")
     pass
 DEFAULT_FILE,_ = read_settings.get_settings()
-DEFAULT_FILE = DEFAULT_FILE["filesystem"]["pose_standardization"] #in settings
-DICT = noduro.read_json(DEFAULT_FILE, True)
+# DEFAULT_FILE = DEFAULT_FILE["filesystem"]["pose_standardization"] #in settings
+from data.raw.gesture_points import points_standardize  
+# DICT = noduro.read_json(DEFAULT_FILE, True)
+DICT = points_standardize.settings
 IMPUTER1 = SimpleImputer(missing_values=np.nan,  strategy='median')
 IMPUTER2 = SimpleImputer(missing_values=np.nan,  strategy='constant', fill_value = 0.5)
 def convert_holistic_to_dict(holistic_values):

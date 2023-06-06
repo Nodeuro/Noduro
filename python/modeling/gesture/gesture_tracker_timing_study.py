@@ -234,6 +234,7 @@ class gesture_timing(gesture_base):
                 # if self.etc["app_settings"]["lowLight"] != -1:
                 #     frame = np.clip(frame * (1+self.etc["app_settings"]["lowLight"]/10), 0, 255).astype(np.uint8)
             # if "focus" in self.etc[""]:
+
             sys.stdout.write(base64.b64encode(cv2.imencode('.jpg', frame)[1].tobytes()).decode('ascii') + " " + str(self.etc["send_to_js"]).replace(" ","").replace("'",'"'))
             # else:
                 # sys.stdout.write(base64.b64encode(cv2.imencode('.jpg', frame)[1].tobytes()).decode('ascii') +  " " + str(self.etc["send_to_js"]["fps"]))

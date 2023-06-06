@@ -22,8 +22,9 @@ const commonResolutions = [
 
 var theme_val;
 var track;
-var default_settings_path = "/src/settings/default_settings.json";
-var user_settings_path = "/src/settings/user_settings.json";
+
+var default_settings_path = "data/settings/default_settings.json"
+var user_settings_path ="data/settings/user_settings.json";
 
 var theme_button = document.getElementById("triple_button");
 var darkButton = document.getElementById("toggle_button_3");
@@ -55,13 +56,13 @@ var delete_passwords = document.getElementById("password_delete");
 let canvas;
 let context;
 try{
-    var settings = window.noduro.readJSONFile(user_settings_path);
+    var settings_file = window.noduro.readJSONFile(user_settings_path);
 }
 catch {
-    var settings = window.noduro.readJSONFile(default_settings_path);
+    var settings_file = window.noduro.readJSONFile(default_settings_path);
     console.log("Error reading user_settings.json, using default settings");
 }
-
+var settings = settings_file.app;
 function flip() {
     camera_object.style.transform = flipVideo.checked ? "scaleX(-1)" : "scaleX(1)";
 }
@@ -277,8 +278,8 @@ document.getElementById('submit_button').addEventListener('click', () => {
     settings.privacy.record_video = privacy_video.checked;
     settings.privacy.local_storage = privacy_local_storage.checked;
     settings.privacy.anonymize_data = privacy_anonymize.checked;
-
-    const jsonContent = JSON.stringify(settings, null, 2);
+    settings_file.settings = settings;
+    const jsonContent = JSON.stringify(settings_file, null, 2);
     window.noduro.writeJSONFile(user_settings_path,jsonContent);
     confirm("Settings saved successfully!");
 });

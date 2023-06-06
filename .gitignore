@@ -5,3 +5,10 @@ __pycache__/
 noduro_python/
 app/node_modules/
 python/settings/email.json
+build/
+dist/
+out/
+data/settings/user_settings.json
+data/firebase/firebaseConfig.json
+data/firebase/firebaseAdmin.json
+app/lessons/0/test.mp4

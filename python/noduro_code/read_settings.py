@@ -1,13 +1,29 @@
 import json
 import os
 import noduro
-settings_folder = noduro.subdir_path('settings')
-settings_folder_files = [noduro.join(settings_folder, file) for file in os.listdir(settings_folder)]
-email_file = list(filter(lambda x : "email" in x, settings_folder_files))[0]
-settings_file = list(filter(lambda x : "user_settings" in x, settings_folder_files))[0]
-
+# settings_folder = noduro.subdir_path('settings')
+# settings_folder_files = [noduro.join(settings_folder, file) for file in os.listdir(settings_folder)]
+# email_file = list(filter(lambda x : "email" in x, settings_folder_files))[0]
+# settings_file = list(filter(lambda x : "user_settings" in x and ".py" in x, settings_folder_files))[0]
+settings_file = ""
+def read_json_python():
+    return {
+    "filesystem": {
+        "data_folder": "D:/ASD",
+        "gesture_points" : "data/raw/gesture_points/points.json",
+        "pose_standardization" : "data/raw/gesture_points/points_standardize.py",
+        "gesture_paths" : "data/raw/gestures/",
+        "model_storage" : "data/analyzed/models/",
+        "app_settings" : "../app/src/settings/default_settings.json",
+        "app_user_settings" : "../app/src/settings/user_settings.json"
+    },
+    "sequence_num": 24,
+    "frame_skippage": 3,
+    "video_scalar": "1440, 810",
+    "scale_factor": 0.07449543432458655
+}
 def get_settings(loc = settings_file):
-    dict = noduro.read_json(loc)
+    dict = read_json_python()
     return dict, loc 
 def get_sequence(loc = settings_file):
     setting, *_ = get_settings(loc)

@@ -1,17 +1,17 @@
 
-var default_settings_path = "/src/settings/default_settings.json";
-var user_settings_path = "/src/settings/user_settings.json";
+var default_settings_path = "data/settings/default_settings.json"
+var user_settings_path ="data/settings/user_settings.json";
 try {
-	var settings = window.noduro.readJSONFile(user_settings_path);
+	var settings = window.noduro.readJSONFile(user_settings_path).app;
 }
 catch {
-	var settings = window.noduro.readJSONFile(default_settings_path);
+	var settings = window.noduro.readJSONFile(default_settings_path).app;
 	console.log("Error reading user_settings.json, using default settings");
 }
 
 const overlay = document.querySelector('.overlay');
 // window.noduro.startPythonFile("../python/modeling/gesture/gesture_tracker_timing_study.py", settings)
-window.noduro.startExeFile("./dist/main/gesture_tracker_timing_study.py.exe", settings)
+// window.noduro.startExeFile("./dist/main/gesture_tracker_timing_study.py.exe", settings)
 async function getLessonData() {
 	var noduro_instruction_data = await noduro.folder_picker();
 	noduro_instruction_data = noduro.get_lesson_path(noduro_instruction_data);
@@ -47,11 +47,18 @@ async function main() {
 
 	const time_on_step = document.getElementById("time_on_step");
 	const step_counter = document.getElementById("step_counter");
-	const canvas = document.getElementById("camera");
-	const ctx = canvas.getContext("2d");
+	const camera_canvas = document.getElementById("output_video");
+	const camera_context = camera_canvas.getContext("2d");
+	const overlay_canvas = document.getElementById("results_overlay");
+	const overlay_context = overlay_canvas.getContext("2d");
+	const camera_video_element = document.getElementsByClassName("input_video")[0];
 
 	if (settings.video.lowLight != -1) {
-		ctx.filter = `brightness(${100 + settings.video.lowLight * 10}%)`;
+		camera_context.filter = `brightness(${100 + settings.video.lowLight * 10}%)`;
+	}
+	if (settings.video.flipVideo) {
+		camera_canvas.style.transform = "scaleX(-1)";
+		overlay_canvas.style.transform = "scaleX(-1)";
 	}
 	function updateProgress() {
 		const progress = (video_element.currentTime / video_element.duration) * 100;
@@ -77,59 +84,59 @@ async function main() {
 	});
 
 
-	const focusValues = [];
-	const fpsValues = [];
-	var playback = 1;
-	function write_focus(focus) {
-		focusValues.push(parseFloat(focus));
-		if (focusValues.length > 3) {
-			focusValues.shift();
-		}
-		const movingAverage = focusValues.reduce((a, b) => a + b, 0) / focusValues.length;
-		focus_display.innerHTML = 100 - 5 * Math.round(movingAverage * 20) + "% Focused";
-		playback = 1 - Math.round(movingAverage * 10) / 10;
-	}
+	// const focusValues = [];
+	// const fpsValues = [];
+	// var playback = 1;
+	// function write_focus(focus) {
+	// 	focusValues.push(parseFloat(focus));
+	// 	if (focusValues.length > 3) {
+	// 		focusValues.shift();
+	// 	}
+	// 	const movingAverage = focusValues.reduce((a, b) => a + b, 0) / focusValues.length;
+	// 	focus_display.innerHTML = 100 - 5 * Math.round(movingAverage * 20) + "% Focused";
+	// 	playback = 1 - Math.round(movingAverage * 10) / 10;
+	// }
 
-	function write_fps(fps) {
-		fpsValues.push(parseFloat(fps));
-		if (fpsValues.length > 15) {
-			fpsValues.shift();
-		}
-		const movingAverage = fpsValues.reduce((a, b) => a + b, 0) / fpsValues.length;
-		const colorScale = (movingAverage - 14) / 6; // Scale the moving average to a value between 0 and 1
-		const redValue = Math.round(Math.min(Math.max(255 * (1 - colorScale), 0), 255)); // Calculate the red value based on the color scale
-		const greenValue = Math.round(Math.min(Math.max(255 * colorScale, 0), 255)); // Calculate the green value based on the color scale
-		const blueValue = 0;
-		const colorString = `rgb(${redValue}, ${greenValue}, ${blueValue})`; // Construct the color string
-		fps_div.style.backgroundColor = colorString; // Set the background color of the element
-	}
+	// function write_fps(fps) {
+	// 	fpsValues.push(parseFloat(fps));
+	// 	if (fpsValues.length > 15) {
+	// 		fpsValues.shift();
+	// 	}
+	// 	const movingAverage = fpsValues.reduce((a, b) => a + b, 0) / fpsValues.length;
+	// 	const colorScale = (movingAverage - 14) / 6; // Scale the moving average to a value between 0 and 1
+	// 	const redValue = Math.round(Math.min(Math.max(255 * (1 - colorScale), 0), 255)); // Calculate the red value based on the color scale
+	// 	const greenValue = Math.round(Math.min(Math.max(255 * colorScale, 0), 255)); // Calculate the green value based on the color scale
+	// 	const blueValue = 0;
+	// 	const colorString = `rgb(${redValue}, ${greenValue}, ${blueValue})`; // Construct the color string
+	// 	fps_div.style.backgroundColor = colorString; // Set the background color of the element
+	// }
 	// Define image object
-	var image = new Image();
+	// var image = new Image();
 
-	// Function to draw base64 image on canvas
-	function drawImageOnCanvas(base64String) {
-		// Set image source to base64 string
-		image.src = "data:image/png;base64," + base64String;
+	// // Function to draw base64 image on canvas
+	// function drawImageOnCanvas(base64String) {
+	// 	// Set image source to base64 string
+	// 	image.src = "data:image/png;base64," + base64String;
 
-		// When the image is loaded, draw it on the canvas
-		image.onload = function () {
-			ctx.clearRect(0, 0, canvas.width, canvas.height);
+	// 	// When the image is loaded, draw it on the canvas
+	// 	image.onload = function () {
+	// 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-			var aspectRatio = image.width / image.height;
-			var targetWidth = canvas.width;
-			var targetHeight = canvas.width / aspectRatio;
+	// 		var aspectRatio = image.width / image.height;
+	// 		var targetWidth = canvas.width;
+	// 		var targetHeight = canvas.width / aspectRatio;
 
-			if (targetHeight > canvas.height) {
-				targetHeight = canvas.height;
-				targetWidth = canvas.height * aspectRatio;
-			}
+	// 		if (targetHeight > canvas.height) {
+	// 			targetHeight = canvas.height;
+	// 			targetWidth = canvas.height * aspectRatio;
+	// 		}
 
-			var x = (canvas.width - targetWidth) / 2;
-			var y = (canvas.height - targetHeight) / 2;
+	// 		var x = (canvas.width - targetWidth) / 2;
+	// 		var y = (canvas.height - targetHeight) / 2;
 
-			ctx.drawImage(image, x, y, targetWidth, targetHeight);
-		};
-	}
+	// 		ctx.drawImage(image, x, y, targetWidth, targetHeight);
+	// 	};
+	// }
 	var curr_step = 0;
 	var step_done = false;
 	var time_on_current_timer = 0;
@@ -140,10 +147,10 @@ async function main() {
 	// window.noduro.startExeFile("./dist/main/gesture_tracker_timing_study.py.exe", settings)
 	// window.noduro.startPythonFile("../python/run.py")
 	// var cam = document.getElementById('camera');
-	var first_time = true;
+
+	initialize_model(fps_div, focus_display, camera_video_element, camera_canvas, overlay_canvas, camera_context, overlay_context);
 	window.addEventListener('message', (event) => {
-		if (event.data.type === 'imageData' && info_open == false) {
-			if (first_time) {
+		if (event.data.type === 'started') {
 				setTimeout(() => {
 					overlay.remove();
 					curr_step = 0;
@@ -165,13 +172,11 @@ async function main() {
 				first_time = false;
 				video_element.src = noduro_instruction_data.meta.video_path;
 				const steps = noduro_instruction_data.steps;
-
-			}
-			const imageBase64 = event.data.payload;
-			drawImageOnCanvas(imageBase64[0]);
-			let alt_data = JSON.parse(imageBase64[1]);
-			write_fps(alt_data.fps);
-			write_focus(alt_data.focus);
+			// const imageBase64 = event.data.payload;
+			// drawImageOnCanvas(imageBase64[0]);
+			// let alt_data = JSON.parse(imageBase64[1]);
+			// write_fps(alt_data.fps);
+			// write_focus(alt_data.focus);
 		}
 	});
 
