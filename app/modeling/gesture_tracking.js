@@ -6,14 +6,24 @@ var info_open = false;
 const focusValues = [];
 const fpsValues = [];
 var playback = 1;
+
+var zero_focus_time = null;
 function write_focus(focus) {
     focusValues.push(parseFloat(focus));
     if (focusValues.length > 3) {
         focusValues.shift();
     }
-    const movingAverage =
-        focusValues.reduce((a, b) => a + b, 0) / focusValues.length;
-    playback = 1 - Math.round(movingAverage * 10) / 10;
+    const movingAverage = focusValues.reduce((a, b) => a + b, 0) / focusValues.length;
+    if (movingAverage > 0.8 && zero_focus_time == null) {
+        zero_focus_time = Date.now();
+    }
+    else if (movingAverage < 0.8 && zero_focus_time != null) {
+        zero_focus_time = null;
+    }
+    else if (zero_focus_time != null && Date.now() - zero_focus_time > 3000) {
+        window.postMessage({type: 'warning', payload: {id: "focus_redirect", string:"please pay attention"}}, '*');
+    }
+    playback = 1 - Math.round(movingAverage * 10) / 20;
     return 100 - 5 * Math.round(movingAverage * 20) + "% Focused";
 }
 
@@ -64,7 +74,10 @@ function onResults(results, gpdict, skip, overlay_context, fps_div, focus_text) 
     const fps = write_fps(skip / delta);
     fps_div.style.backgroundColor = fps[1];
 
-    const foc = focus_from_result_obj(results, gpdict);
+    var foc = focus_from_result_obj(results, gpdict);
+    if (foc == 0){
+        foc = 1
+    }
     const focus = write_focus(foc);
     focus_text.innerHTML = focus;
 
@@ -100,6 +113,7 @@ function initialize_model(fps_div, focus_text, videoElement, camera_canvas, over
     if (camera_context == undefined) camera_context = camera_canvas.getContext("2d");
     if (overlay_context == undefined) overlay_context = overlay_canvas.getContext("2d");
     holistic.onResults((results) => onResults(results, gpdict, skip, overlay_context, fps_div, focus_text));
+    fps_div.style.transition = "background-color 0.5s ease";
     const camera = new Camera(videoElement, {
         onFrame: async () => {
             if (!info_open) {

@@ -25,21 +25,29 @@ var settings_folder_text = document.getElementById("settings_folder_text");
 var lessons_folder = document.getElementById("lessons_folder");
 var lessons_folder_text = document.getElementById("lessons_folder_text");
 if (localStorage.getItem("settings_folder") != null) {
-    settings_folder_text.innerHTML = "Settings Folder: " + localStorage.getItem("settings_folder");
+    settings_folder_text.innerHTML = localStorage.getItem("settings_folder");
 }
 if (localStorage.getItem("lessons_folder") != null) {
-    lessons_folder_text.innerHTML = "Lessons Folder: " + localStorage.getItem("lessons_folder");
+    lessons_folder_text.innerHTML = localStorage.getItem("lessons_folder");
 }
 settings_folder.addEventListener("click", async function () {
     var folder =  await window.noduro.folder_picker();
-    settings_folder_text.innerHTML = "Settings Folder: " + folder;
+    if (folder == null) {
+        return;
+    }
+    isPageDirty = true;
+    settings_folder_text.innerHTML = folder;
     localStorage.setItem("settings_folder", folder);
 
     // Do something with the selected folder path
 });
 lessons_folder.addEventListener("click", async function () {
     var folder =  await window.noduro.folder_picker();
-    lessons_folder_text.innerHTML = "Lessons Folder: " + folder;
+    if (folder == null) {
+        return;
+    }
+    isPageDirty = true;
+    lessons_folder_text.innerHTML = folder;
     localStorage.setItem("lessons_folder", folder);
     // Do something with the selected folder path
 });
@@ -195,6 +203,7 @@ function during(){
 
     var triStateToggleButtons = document.querySelectorAll(".theme_button button");
     function activateButton(button) {
+        isPageDirty = true;
         var id = button.getAttribute("id");
         button.classList.add("active");
         if (id == "toggle_button_3") {
@@ -305,6 +314,7 @@ document.getElementById('submit_button').addEventListener('click', () => {
     settings_file.settings = settings;
     const jsonContent = JSON.stringify(settings_file, null, 2);
     window.noduro.writeJSONFile(user_settings_path,jsonContent, true);
+    isPageDirty = false;
     confirm("Settings saved successfully!");
 });
 

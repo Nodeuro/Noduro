@@ -144,7 +144,8 @@ function focus_tracking(
     var nose_angle = nose_line_angle(nose_list);
     var roll = Math.abs(chest_angle * 0.25 + nose_angle) / 60; //060
     if (roll > 1) roll = 1;
-    var derived_focus = (roll * 2 + fundamental_ratio) / 4; //factor 2 together]
+    var derived_focus = (roll + fundamental_ratio) / 3; //factor 2 together]
+
     return derived_focus;
 }
 

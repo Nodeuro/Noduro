@@ -36,18 +36,20 @@
         <div class="split">
           <p>Select the color palette of the app, with either a light, dark, or the operating system theme.</p>
           <div class="triple_button" id="triple_button">
-            <div class="theme_button"> <button id=toggle_button_1>Light</button> </div>
-            <div class="theme_button"> <button id=toggle_button_2>System</button> </div>
-            <div class="theme_button"> <button id=toggle_button_3>Dark</button> </div>
+            <div class="theme_button"> <button class = "option" id=toggle_button_1>Light</button> </div>
+            <div class="theme_button"> <button class = "option" id=toggle_button_2>System</button> </div>
+            <div class="theme_button"> <button class = "option" id=toggle_button_3>Dark</button> </div>
           </div>
         </div>
         <div class="split">
-          <label style = "font-size: 2vw" class = "toggle_switch_label" id = "settings_folder_text">Settings Folder</label>
-          <button class = "normal_button" id = "settings_folder">Browse</button>
+          <label style = "font-size: 2vw" class = "toggle_switch_label">Settings Folder:</label>
+          <label class = "toggle_switch_label" id = "settings_folder_text">None</label>
+          <button class = "normal_button option" id = "settings_folder">Browse</button>
         </div>
         <div class="split">
-          <label style = "font-size: 2vw" class = "toggle_switch_label" id = "lessons_folder_text">Lessons</label>
-          <button class = "normal_button" id = "lessons_folder">Browse</button>
+          <label style = "font-size: 2vw" class = "toggle_switch_label"">Lessons:</label>
+          <label class = "toggle_switch_label" id = "lessons_folder_text">None</label>
+          <button class = "normal_button option" id = "lessons_folder">Browse</button>
         </div>
       </div>
       <div class="sub_item">
