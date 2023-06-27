@@ -149,7 +149,7 @@ async function main() {
 	// window.noduro.startExeFile("./dist/main/gesture_tracker_timing_study.py.exe", settings)
 	// window.noduro.startPythonFile("../python/run.py")
 	// var cam = document.getElementById('camera');
-	initialize_model(fps_div, focus_display, camera_video_element, camera_canvas, overlay_canvas, camera_context, overlay_context, 3, settings_file);
+	initialize_model(fps_div, focus_display, camera_video_element, camera_canvas, overlay_canvas, camera_context, overlay_context, settings.video.frame_skip, settings_file);
 	window.addEventListener('message', (event) => {
 		if (event.data.type === 'started') {
 				setTimeout(() => {
@@ -187,7 +187,7 @@ async function main() {
 			function play(){
 				video_element.play();
 			}
-			createPopup(event.data.payload.id, event.data.payload.string, play);
+			createPopup(event.data.payload.id, event.data.payload.string, play, event.data.payload.time);
 		}
 	});
 
@@ -209,11 +209,11 @@ async function main() {
 			info_button.classList.remove('info_button_active');
 
 			// Remove all the h1 elements from the info_div
-			const ingredientsHeader = info_div.querySelector('h1');
-			while (ingredientsHeader.nextSibling) {
-				info_div.removeChild(ingredientsHeader.nextSibling);
-			}
-			info_div.removeChild(ingredientsHeader);
+			// const ingredientsHeader = info_div.querySelector('h1');
+			// while (ingredientsHeader.nextSibling) {
+			// 	info_div.removeChild(ingredientsHeader.nextSibling);
+			// }
+			// info_div.removeChild(ingredientsHeader);
 		}
 	});
 

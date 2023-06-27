@@ -1,0 +1,169 @@
+{
+    "meta": {
+        "lesson_name": "Quinoa Stir-Fry",
+        "image_path": "0.jpg",
+        "video_path": "test.mp4"
+    },
+    "ingredients": [
+        { "name": "quinoa", "quantity": "1 cup" },
+        { "name": "water", "quantity": "2 cups" },
+        { "name": "olive oil", "quantity": "2 tablespoons" },
+        { "name": "onion", "quantity": "1 medium", "preparation": "sliced" },
+        { "name": "garlic", "quantity": "2 cloves", "preparation": "minced" },
+        {
+            "name": "bell pepper",
+            "quantity": "1 medium",
+            "preparation": "sliced"
+        },
+        {
+            "name": "carrot",
+            "quantity": "1 medium",
+            "preparation": "julienned"
+        },
+        { "name": "broccoli florets", "quantity": "1 cup" },
+        { "name": "mushrooms", "quantity": "1 cup", "preparation": "sliced" },
+        { "name": "snap peas", "quantity": "1 cup" },
+        { "name": "low-sodium soy sauce or tamari", "quantity": "1/4 cup" },
+        {
+            "name": "maple syrup or honey",
+            "quantity": "1 tablespoon",
+            "optional": true
+        },
+        { "name": "salt", "quantity": "" },
+        { "name": "pepper", "quantity": "to taste" },
+        { "name": "sesame seeds", "quantity": "for garnish", "optional": true }
+    ],
+    "tags": {
+        "meal": "Lunch, Dinner",
+        "dietary_restrictions": "Vegetarian",
+        "difficulty": "Easy",
+        "cuisine": "Asian",
+        "allergens": ["Soy", "Gluten"]
+    },
+    "nutrition": {
+        "calories": "350",
+        "carbohydrates": "55g",
+        "protein": "10g",
+        "fat": "10g",
+        "fiber": "8g"
+    },
+    "steps": [
+        {
+            "index": 1,
+            "category": "Introduction",
+            "step": "Gather Ingredients",
+            "start": 0,
+            "end": 10,
+            "duration": 10,
+            "description": "Collect all the required ingredients for the recipe."
+        },
+        {
+            "index": 2,
+            "category": "Preparation",
+            "step": "Rinse Quinoa",
+            "start": 10,
+            "end": 30,
+            "duration": 20,
+            "description": "Thoroughly rinse the quinoa under running water."
+        },
+        {
+            "index": 3,
+            "category": "Cooking",
+            "step": "Cook Quinoa",
+            "start": 30,
+            "end": 50,
+            "duration": 20,
+            "description": "Cook the rinsed quinoa in water according to package instructions."
+        },
+        {
+            "index": 4,
+            "category": "Cooking",
+            "step": "Heat Oil",
+            "start": 50,
+            "end": 80,
+            "duration": 30,
+            "description": "Heat olive oil in a pan over medium heat."
+        },
+        {
+            "index": 5,
+            "category": "Cooking",
+            "step": "Sauté Onion & Garlic",
+            "start": 640,
+            "end": 670,
+            "duration": 30,
+            "description": "Add sliced onion and minced garlic to the heated oil. Sauté until they turn golden brown."
+        },
+        {
+            "index": 6,
+            "category": "Cooking",
+            "step": "Add Vegetables",
+            "start": 670,
+            "end": 700,
+            "duration": 30,
+            "description": "Add bell pepper, carrot, broccoli florets, mushrooms, and snap peas to the pan with sautéed onion and garlic."
+        },
+        {
+            "index": 7,
+            "category": "Cooking",
+            "step": "Stir-Fry",
+            "start": 700,
+            "end": 1000,
+            "duration": 300,
+            "description": "Stir and cook the vegetable mixture until they are tender and slightly crisp."
+        },
+        {
+            "index": 8,
+            "category": "Preparation",
+            "step": "Whisk Sauce",
+            "start": 1000,
+            "end": 1020,
+            "duration": 20,
+            "description": "In a separate bowl, whisk together low-sodium soy sauce or tamari and optional maple syrup or honey."
+        },
+        {
+            "index": 9,
+            "category": "Cooking",
+            "step": "Combine Sauce & Vegetables",
+            "start": 1020,
+            "end": 1050,
+            "duration": 30,
+            "description": "Pour the prepared sauce over the cooked vegetables in the pan. Stir well to coat them evenly."
+        },
+        {
+            "index": 10,
+            "category": "Cooking",
+            "step": "Cook Together",
+            "start": 1050,
+            "end": 1230,
+            "duration": 180,
+            "description": "Continue cooking the vegetable mixture and sauce together for a few minutes until they are well combined and heated through."
+        },
+        {
+            "index": 11,
+            "category": "Seasoning",
+            "step": "Season",
+            "start": 1230,
+            "end": 1240,
+            "duration": 10,
+            "description": "Taste the stir-fry and add salt and pepper as needed for seasoning."
+        },
+        {
+            "index": 12,
+            "category": "Preparation",
+            "step": "Prepare Garnish",
+            "start": 1240,
+            "end": 1255,
+            "duration": 15,
+            "description": "Optionally, prepare sesame seeds or any other desired garnish for the final touch."
+        },
+        {
+            "index": 13,
+            "category": "Serving",
+            "step": "Serve",
+            "start": 1255,
+            "end": 1265,
+            "duration": 10,
+            "description": "Transfer the quinoa stir-fry to a serving dish. Optionally, sprinkle with prepared garnish. Serve and enjoy!"
+        }
+    ]
+}

@@ -15,7 +15,7 @@
   --popup_bg : rgb(0,0,0);
   --info_bg : #c6b690;
   --bottom_bg : #e1d4b9;
-  --buttons-size: calc(24px + 1vw);
+  --buttons-size: calc(40px + 0.5vw);
   --bottom-font-size: calc(12px + 2.5vw);
   --accordion_bg: #efe5d1;
   --accordion_color: #32302d;

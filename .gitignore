@@ -11,4 +11,6 @@ out/
 data/settings/user_settings.json
 data/firebase/firebaseConfig.json
 data/firebase/firebaseAdmin.json
-app/lessons/0/test.mp4
+app/lessons/*.mp4
+app/lessons/Vegetarian Shell/full_res.mp4
+app/lessons/Sautee/test.mp4

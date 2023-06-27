@@ -1,3 +1,4 @@
+
 var files = JSON.parse(localStorage.getItem("files"));
 var lessons = JSON.parse(localStorage.getItem("lessons"));
 
@@ -16,12 +17,12 @@ function add_element(div_name, image_source, name) {
 
     // Add click event listener to redirect to tech.html
     entry.addEventListener("click", function() {
+        sessionStorage.setItem("lesson", name);
         window.location.href = "./technology/tech.html";
     });
 
     // create a new div element
     var image = document.createElement("img");
-    image.setAttribute("class", "image");
     image.setAttribute("alt", name);
     image.src = image_source;
     entry.appendChild(image);
@@ -30,7 +31,7 @@ function add_element(div_name, image_source, name) {
     var overlay = document.createElement("div");
     overlay.setAttribute("class", "overlay_text");
     var link = document.createElement("h1");
-    link.textContent = "Brioche Bun Fun";
+    link.textContent = name;
     overlay.appendChild(link);
     entry.appendChild(overlay);
 

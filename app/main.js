@@ -96,7 +96,6 @@ const createWindow = () => {
     });
     
     mainWindow.loadFile("index.html");
-
     // mainWindow.webContents.send('reset_scroll');
     //Change the css style based on the system preference
     ipcMain.handle("dark-mode:toggle", () => {
@@ -141,7 +140,6 @@ const createWindow = () => {
         googleProvider: GoogleAuthProvider,
         facebookProvider: FacebookAuthProvider,
     } = initializeFirebase();
-
           // Add a new document in collection "cities" with ID 'LA'
           ipcMain.handle("firebase:get_last_login", async(event, email) => {
             return await keytar.getPassword('noduro_accounts', email + "_time");
@@ -192,6 +190,9 @@ const createWindow = () => {
             } catch (error) {
                 return [false, error];
             }
+        });
+        ipcMain.handle("firebase:google_sign_in", async (event) => {
+
         });
         ipcMain.handle("firebase:get_current_user", async (event) => {
             return new Promise((resolve) => {

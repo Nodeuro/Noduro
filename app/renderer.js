@@ -1,4 +1,5 @@
 async function signIn(email, password) {
+  // await firebase.google_sign_in();
   // await firebase.email_sign_in("aadvik.vashist@outlook.com", "password");
   // handle the result
   var val = await firebase.check_user_local();

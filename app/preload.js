@@ -86,6 +86,17 @@ contextBridge.exposeInMainWorld("firebase", {
     email_sign_in: async (email, password) => {
         return await sign_in(email, password,true);
     },
+    google_sign_in: async () => {
+        const user = await ipcRenderer.invoke("firebase:google_sign_in");
+        if (user[0]) {
+            localStorage.setItem("email", email);
+            console.log("user signed up");
+            user[1] = JSON.parse(user[1]);
+        } else {
+            console.log("user sign up failed");
+        }
+        return user;
+    },
     get_current_user: async( ) => {
         console.log("get user request sent to preload");
         const user = await ipcRenderer.invoke("firebase:get_current_user");

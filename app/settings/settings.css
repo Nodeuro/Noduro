@@ -3,7 +3,7 @@
 
 :root{
   --shadow:rgba(0, 0, 0, 0.2);
-  --toggle-button-scale: 2vw;
+  --toggle-button-scale: calc(0.75vw + 20px);
   --slider-scale: 2vh;
   --slider-thumb-scalar: 1.5;
 }
@@ -51,6 +51,9 @@
     --submit_button_text_hover: #3a2f18;
     --submit_button_bg_active: #4a412e;
     --submit_button_text_active: #c7bba2;
+
+    --visualizer_low : #7a7a7a;
+    --visualizer_high : #407b33;
   }
 }
 
@@ -103,6 +106,9 @@
     --submit_button_text_hover: #3a2f18;
     --submit_button_bg_active: #4a412e;
     --submit_button_text_active: #fefefe;
+
+    --visualizer_low : #7a7a7a;
+    --visualizer_high : #4a903a;
     }
 }
 
@@ -123,7 +129,6 @@ body {
 } */
 html, body {
   background: var(--background);
-  overflow-x: hidden;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
   transition: all 1s ease;
@@ -152,6 +157,7 @@ html, body {
   display: flex;
   flex-flow: column nowrap;
   width:80%;
+  min-width: 800px;
   height: 90vh;
   position:relative;
   overflow-y: scroll;
@@ -355,7 +361,7 @@ html, body {
   font-size: calc(0.75 * var(--toggle-button-scale));
   color: var(--label-color);
   padding-right: 1vw;
-  font-weight: 500;
+  font-weight: 700;
   font-family: 'Roboto', sans-serif;
   margin-top: 0.5vh;
   margin-bottom: 0.5vh;
@@ -418,19 +424,21 @@ html, body {
   padding-bottom: 2vh;
   display: flex;
   justify-content: space-between;
+  width:100%;
 }
 
 .reset_button {
   color: var(--reset_button_text);
   background-color: var(--reset_button_bg);
-  width: calc(16 * var(--toggle-button-scale));
   font-size: calc(0.85 * var(--toggle-button-scale));
   font-family: "Poppins", sans-serif;
   border-radius: calc(1 * var(--toggle-button-scale));
   border: none;
-  padding: 0.4vw 2.5vw;
+  white-space: nowrap;
+  /* padding: 0.4vw 2.5vw; */
   transition: all 1s ease;
   margin: 0.5vh 1vw 0.5vh 0vw;
+  flex: 1;
 }
 
 .reset_button:hover {
@@ -513,4 +521,112 @@ html, body {
   transform: scale(1.1, 1.1);
   -webkit-transform: scale(1.1, 1.1);
   -moz-transform: scale(1.1, 1.1);
+}
+
+
+#frameskip_visualizer{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  background-color: inherit;
+  height: calc(15px + 10vh);;
+  margin-top: 2vh;
+  padding:10px;
+  overflow-x: hidden;
+}
+
+#frameskip_visualizer div{
+  height: 2vh;
+  flex: 1;
+  background-color: var(--visualizer_low);
+  transition:all 0.5s ease;
+  margin-left:0.25%;
+
+}
+#frameskip_visualizer div:first-child{
+  margin-left:0%;
+}
+#frameskip_visualizer div p {
+  position: relative;
+  font-size: calc(10px + 1vh);
+  top: calc(-15px - 1.1vh);
+  color: black;
+  width:100%;
+  text-align: center;
+  /*left: 50%;  move the element to the center of the parent
+  transform: translateX(-25%);  move the element back to the left by half its width */
+}
+#frameskip_visualizer .active{
+  height: 8vh;
+  flex: 1.25;
+  background-color: var(--visualizer_high);
+}
+#frameskip_visualizer .active p{
+  top: calc(-18px - 1.4vh);
+  font-size: calc(15px + 1vh);
+
+  /* transform: rotate(-90deg); */
+
+}
+.split div{
+  padding:0;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+.split div *{
+  margin-right: 6px;
+  margin-left: 0;
+} 
+.split div:last-child{
+  margin-right: 0px;
+}
+/* .vertical{
+  display: flex;
+  flex-flow: column nowrap;
+} */
+
+#reload_page{
+  left: 1vw;
+  top: 12vh;
+  bottom:auto;
+  right:auto;
+}
+#reload_page i{
+  font-size: calc(20px + 2vh);
+}
+#reload_page:hover{
+  transform: scale(1.2) rotate(30deg);
+  background-color: var(--bg_hover);
+}
+
+#reload_page:active {
+  transition: all 1s ease-in-out;
+  transform: scale(1.2) rotate(360deg);
+  background-color: var(--bg_active);
+}
+
+
+#frame_skip_div *{
+  margin-right: 0.5vw;
+  line-height: 1;
+}
+#frame_skip_div label{
+  white-space: nowrap;
+}
+#frameskip_visualizer div p {
+  position: relative;
+  font-size: calc(10px + 1vh);
+  top: calc(-15px - 1.1vh);
+  color: black;
+  width:100%;
+  text-align: center;
+  z-index: 9999; /* set a high z-index value */
+}
+
+#frame_skip_div:last-child{
+  margin-right: 0vw;
 }

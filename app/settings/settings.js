@@ -71,6 +71,9 @@ var video_resolution = document.getElementById("resolution");
 var video_focus = document.getElementById("focus");
 var video_lowLight = document.getElementById("lowLightCheckbox");
 var video_lowLightSlider = document.getElementById("lowLightSlider");
+var frameskip_visualizer = document.getElementById("frameskip_visualizer");
+var video_frameSkipSlider = document.getElementById("frameskipSlider");
+var video_frameSkipDisplay = document.getElementById("frameskipDisplay");
 
 var audio_main = document.getElementById("mainVolumeSlider");
 var audio_sound_effects = document.getElementById("sfxSlider");
@@ -133,6 +136,26 @@ function initialize(){
 
     }
 
+    video_frameSkipSlider.value = parseInt(settings.video.frame_skip);
+    frameskipDisplay.innerHTML = parseInt(settings.video.frame_skip);
+    for (let i = 0; i < 30; i++) {
+        const div = document.createElement('div');
+        div.id = `frameskip_visualizer${i}`;
+        frameskip_visualizer.appendChild(div);
+        var count = i % parseInt(settings.video.frame_skip);
+        const p = document.createElement('p');
+
+        if (count == 0) {
+            div.classList.add('active');
+            p.innerHTML = "P";
+        }
+        else{
+            p.innerHTML = count+1;
+
+        }
+        div.appendChild(p);
+    }
+
     audio_main.value = settings.audio.master_volume;
     audio_sound_effects.value = settings.audio.sound_effects_volume;
     audio_teacher.value = settings.audio.teacher_volume;
@@ -143,6 +166,9 @@ function initialize(){
     privacy_video.checked = settings.privacy.record_video;
     privacy_local_storage.checked = settings.privacy.local_storage;
     privacy_anonymize.checked = settings.privacy.anonymize_data;
+
+
+
 }
 function populateDropdown(res_width,res_height,element) {
     const resolutions = commonResolutions.filter(([width, height]) => width <= res_width && height <= res_height);
@@ -301,7 +327,7 @@ document.getElementById('submit_button').addEventListener('click', () => {
     if(!video_lowLight.checked) settings.video.lowLight = -1;
     else settings.video.lowLight = video_lowLightSlider.value;
     settings.video.autofocus = video_focus.checked;
-
+    settings.video.frame_skip = video_frameSkipSlider.value;
     settings.audio.master_volume = audio_main.value;
     settings.audio.sound_effects_volume = audio_sound_effects.value;
     settings.audio.teacher_volume = audio_teacher.value;
@@ -318,6 +344,54 @@ document.getElementById('submit_button').addEventListener('click', () => {
     confirm("Settings saved successfully!");
 });
 
+function checkSubstringInList(substring, list) {
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].includes(substring)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+
+
+video_frameSkipSlider.addEventListener('input', function() {
+    video_frameSkipDisplay.innerHTML = this.value;
+    for (let i = 0; i < 30; i++) {
+        const box = document.getElementById(`frameskip_visualizer${i}`);
+        box.classList.remove('active');
+        box.innerHTML = '';
+    }
+    for (let i = 0; i < 30; i++){
+        var count = i % parseInt(video_frameSkipSlider.value);
+        const box = document.getElementById(`frameskip_visualizer${i}`);
+        const p = document.createElement('p');
+        p.innerHTML = count+1;
+        box.appendChild(p);
+        if (count == 0) {
+            box.classList.add('active');
+            p.innerHTML = "P";
+        }
+        else{
+            p.innerHTML = count+1;
+
+        }
+
+    }
+    // Remove the style element if it exists
+    // const current_elements = document.head;
+    // if (checkSubstringInList("::nth-child", current_elements) > -1) {
+    //     document.head.removeChild(current_elements[checkSubstringInList("::nth-child", current_elements)]);
+    // }
+    // var style = document.createElement('style');
+    // style.innerHTML = `#frameskip_visualizer::nth-child(2n){ height: 6vh; background-color: var(--background);}`;
+    // document.head.appendChild(style);
+
+    // Append the style element to the document head
+    console.log(`Slider value: ${video_frameSkipSlider.value}`);
+
+    // Set the nth-child value to 3
+});
 
 
 function check_redirect(url) {

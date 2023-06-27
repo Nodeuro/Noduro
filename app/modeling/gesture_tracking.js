@@ -6,8 +6,10 @@ var info_open = false;
 const focusValues = [];
 const fpsValues = [];
 var playback = 1;
-
+var skip;
 var zero_focus_time = null;
+var low_fps_time = null;
+
 function write_focus(focus) {
     focusValues.push(parseFloat(focus));
     if (focusValues.length > 3) {
@@ -21,8 +23,8 @@ function write_focus(focus) {
         zero_focus_time = null;
     }
     else if (zero_focus_time != null && Date.now() - zero_focus_time > 3000) {
-        window.postMessage({type: 'warning', payload: {id: "focus_redirect", string:"please pay attention"}}, '*');
-    }
+        window.postMessage({type: 'warning', payload: {id : "focus_redirect", string : "please pay attention", time : 15}}, '*');
+    }  
     playback = 1 - Math.round(movingAverage * 10) / 20;
     return 100 - 5 * Math.round(movingAverage * 20) + "% Focused";
 }
@@ -34,6 +36,17 @@ function write_fps(fps) {
     }
     const movingAverage =
         fpsValues.reduce((a, b) => a + b, 0) / fpsValues.length;
+    if (fps < 8 && low_fps_time == null) {
+        low_fps_time = Date.now();
+    }
+    else if (fps > 8 && low_fps_time != null) {
+        low_fps_time = null;
+    }
+    else if (low_fps_time != null && Date.now() - low_fps_time > 3000) {
+        skip +=1;
+        window.postMessage({type: 'warning', payload: {id: "focus_redirect", string:"increasing frame speed", time : 5}}, '*');
+        low_fps_time = Date.now() + 5000;
+    }    
     const colorScale = (movingAverage - 16) / 20; // Scale the moving average to a value between 0 and 1
     const redValue = Math.round(
         Math.min(Math.max(255 * (1 - colorScale), 0), 255)
@@ -103,9 +116,12 @@ holistic.setOptions({
 //     document.getElementById("focus")
 // );
 var camera_stream_image = false;
-function initialize_model(fps_div, focus_text, videoElement, camera_canvas, overlay_canvas, camera_context, overlay_context, skip, gpdict) {
-    if (skip == undefined) {
-        var skip = 3;
+function initialize_model(fps_div, focus_text, videoElement, camera_canvas, overlay_canvas, camera_context, overlay_context, skipping, gpdict) {
+    if (skipping == undefined) {
+        skip = 3;
+    }
+    else {
+        skip = skipping;
     }
     if (typeof gpdict === 'string' || gpdict instanceof String) {
         var gpdict = window.noduro.readJSONFile(gpdict, true).model.points;

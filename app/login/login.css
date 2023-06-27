@@ -1,7 +1,11 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins");
 @import url("https://fonts.googleapis.com/css2?family=Anuphan&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto");
 
+:root{
+    --continue_with_border: #c8c8c8;
+    --continue_with_color: #444444;
+}
 @media (prefers-color-scheme: light) {
     :root {
         /* --main: rgb(237,242,247);
@@ -27,6 +31,7 @@
         --forgot_password_underline_color: rgba(0, 0, 0, 0);
         --forgot_password_underline_hover_color: rgba(0, 0, 0, 1);
         --shadow: rgba(0, 0, 0, 0.2);
+
     }
 }
 @media (prefers-color-scheme: dark) {
@@ -273,3 +278,45 @@ form i {
     text-decoration-color: var(--forgot_password_underline_hover_color);
 }
 
+.external_links{
+    display:flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+.external_links *{
+    margin-bottom: 1.25vh;
+}
+.external_links *:last-child{
+    margin-bottom: 0;
+}
+.continue_with {
+    font-size: calc(20px + 0.625vw);
+    font-weight: 600;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    border-radius: calc(37.5px + 1.25vw);
+    height: calc(37.5px + 1.25vw);
+    width: calc(300px + 9.375vw);
+    border: 1px solid var(--continue_with_border);
+    background-color: white;
+    padding-left:2%;
+    padding-right:4%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    color: var(--continue_with_color);
+    transition: all 0.2s ease-in-out;
+    
+}
+.continue_with:hover{
+    transform: scale(1.05, 1.05);
+}
+.continue_with:active{
+    transform: scale(1.15, 1.15);
+}
+.continue_with img{
+    height: 85%;
+    aspect-ratio: 1/1;
+    align-self: center;
+    margin-right: 15px;
+}

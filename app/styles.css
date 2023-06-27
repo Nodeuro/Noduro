@@ -9,8 +9,8 @@
   --statistics-bg: rgb(153, 141, 109);
   --box-bg: #f6f1e4;
   --box-text-color: #3b3527;
-  --overlay_text: var(--background);
-  --overlay_text_hover: var(--main_div_text_color);
+  --overlay_text:  var(--main_div_text_color); 
+  --overlay_text_hover: var(--background);
   }
   }
 
@@ -24,8 +24,8 @@
     --statistics-bg: rgb(153, 141, 109);
     --box-bg: #f6f1e4;
     --box-text-color: #2f2c26;
-    --overlay_text: var(--background); 
-    --overlay_text_hover: var(--main_div_text_color);
+    --overlay_text:  var(--main_div_text_color); 
+    --overlay_text_hover: var(--background);
   
 
   }
@@ -242,12 +242,10 @@ html, body {
 .recommended .card {
   display: inline-block;
   margin-right: 0.75vw;
+  min-width: 250px;
   position: relative; /* add position relative to the card */
 }
-.recommended .card:hover {
-  display: inline-block;
-  margin-right: 0.75vw;
-} 
+
 .recommended .card .overlay_text {
   position: absolute;
   top: 50%;
@@ -264,13 +262,18 @@ html, body {
   color: var(--overlay_text_hover);
 }
 
-.recommended .image{
+.recommended img{
   border-radius: 1vh;
   height:var(--vid_height);
   transition: all 0.5s ease;
+  object-fit: cover;
+  width: 100%; /* add this line */
+
 }
-.recommended .card:hover .image{
-  filter: brightness(50%);
+
+.card:hover img{
+  filter: brightness(50%) blur(5px);
+  overflow: hidden;
   }
 
 

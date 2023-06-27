@@ -5,6 +5,8 @@
   <meta charset="UTF-8" />
   <link rel="stylesheet" type="text/css" href="./settings.css" />
   <link rel="stylesheet" href="../global/global_header.css" />
+  <link rel="stylesheet" href="../global/icon/icons.css" />
+
   <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net/;" />
 </head>
 
@@ -12,18 +14,19 @@
   <header>
     <div class="global_header">
       <div class="header_left">
-        <h1 class="header_title"onclick="check_redirect('../index.html');">Noduro Open Beta 1.0</h1>
+        <h1 class="header_title" onclick="check_redirect('../index.html');">Noduro Open Beta 1.0</h1>
       </div>
       <div class="header_right">
-        <button class="navigation_button"onclick="check_redirect('../index.html');">Home</button>
-        <button class="navigation_button"onclick="check_redirect('../technology/tech.html');">Technology</button>
-        <button class="navigation_button"onclick="check_redirect('./settings.html');">Settings</button>
-        <button class="navigation_button"onclick="check_redirect('../login/login.html');">Login</button>
+        <button class="navigation_button" onclick="check_redirect('../index.html');">Home</button>
+        <button class="navigation_button" onclick="check_redirect('../technology/tech.html');">Technology</button>
+        <button class="navigation_button" onclick="check_redirect('./settings.html');">Settings</button>
+        <button class="navigation_button" onclick="check_redirect('../login/login.html');">Login</button>
 
       </div>
     </div>
     <div class="filler"></div>
   </header>
+  <button id = "reload_page" class = "iconButton" onclick="window.location.reload()"> <i class="bi bi-bootstrap-reboot contact-icon"></i> </button>
   <div class="main_div">
     <!-- <div class="left-bar">
 
@@ -36,55 +39,73 @@
         <div class="split">
           <p>Select the color palette of the app, with either a light, dark, or the operating system theme.</p>
           <div class="triple_button" id="triple_button">
-            <div class="theme_button"> <button class = "option" id=toggle_button_1>Light</button> </div>
-            <div class="theme_button"> <button class = "option" id=toggle_button_2>System</button> </div>
-            <div class="theme_button"> <button class = "option" id=toggle_button_3>Dark</button> </div>
+            <div class="theme_button"> <button class="option" id=toggle_button_1>Light</button> </div>
+            <div class="theme_button"> <button class="option" id=toggle_button_2>System</button> </div>
+            <div class="theme_button"> <button class="option" id=toggle_button_3>Dark</button> </div>
           </div>
         </div>
         <div class="split">
-          <label style = "font-size: 2vw" class = "toggle_switch_label">Settings Folder:</label>
-          <label class = "toggle_switch_label" id = "settings_folder_text">None</label>
-          <button class = "normal_button option" id = "settings_folder">Browse</button>
+          <label style="font-size: 2vw" class="toggle_switch_label">Settings Folder:</label>
+          <label class="toggle_switch_label" id="settings_folder_text">None</label>
+          <button class="normal_button option" id="settings_folder">Browse</button>
         </div>
         <div class="split">
-          <label style = "font-size: 2vw" class = "toggle_switch_label"">Lessons:</label>
-          <label class = "toggle_switch_label" id = "lessons_folder_text">None</label>
-          <button class = "normal_button option" id = "lessons_folder">Browse</button>
+          <label style="font-size: 2vw" class="toggle_switch_label"">Lessons:</label>
+          <label class = " toggle_switch_label" id="lessons_folder_text">None</label>
+          <button class="normal_button option" id="lessons_folder">Browse</button>
         </div>
       </div>
       <div class="sub_item">
         <h1 class="heading">Video</h1>
         <hr class="accent_line">
         <video id="camera_test" class="video"></video>
-        <div class = "split">
-        <label class="toggle_switch_label" for="resolution">Resolution:</label>
-        <select id="resolution" class="dropdown option">
-          <!-- Add more resolution options if needed -->
-        </select>
-      </div>
-        <div class = "split_space_2col">
-        <label class = "toggle_switch_label">Flip Camera</label>
-        <label class="toggle_switch">
-          <input id="flipVideo" type="checkbox" class="option">
-          <span class="toggle_switch_addon"></span>
-        </label>
-        <div></div>
-        <label class = "toggle_switch_label">Autofocus</label>
-        <label class="toggle_switch">
-          <input id="focus" type="checkbox" class="option">
-          <span class="toggle_switch_addon"></span>
-        </label>
-        <div></div>
+        <div class="split">
+          <label class="toggle_switch_label" for="resolution">Resolution:</label>
+          <select id="resolution" class="dropdown option">
+            <!-- Add more resolution options if needed -->
+          </select>
+        </div>
+        <div class="split_space_2col">
+          <label class="toggle_switch_label">Flip Camera</label>
+          <label class="toggle_switch">
+            <input id="flipVideo" type="checkbox" class="option">
+            <span class="toggle_switch_addon"></span>
+          </label>
+          <div></div>
+          <label class="toggle_switch_label">Autofocus</label>
+          <label class="toggle_switch">
+            <input id="focus" type="checkbox" class="option">
+            <span class="toggle_switch_addon"></span>
+          </label>
+          <div></div>
 
 
-        <label class = "toggle_switch_label">Adjust for Low Light</label>
+          <label class="toggle_switch_label">Adjust for Low Light</label>
           <label class="toggle_switch">
             <input id="lowLightCheckbox" type="checkbox" class="option">
             <span class="toggle_switch_addon"></span>
           </label>
-        <div>
-          <input type="range" id="lowLightSlider" min="0" max="10" step="1" class="lightSlider custom_slider option">
+          <div>
+            <input type="range" id="lowLightSlider" min="0" max="10" step="1" class="lightSlider custom_slider option">
+          </div>
         </div>
+        <br>
+        <div class="split" id = "frame_skip_div">
+          <label class="toggle_switch_label">Frame Skippage</label>
+          <div style="flex-flow: column nowrap; height: min-content">
+            <p id = "frameskipDisplay">3</p>
+            <div>
+              <p>1</p>
+              <input type="range" id="frameskipSlider" min="1" max="10" step="1"
+                class="audioSlider custom_slider option">
+              <p>10</p>
+            </div>
+          </div>
+
+          <p>Select how often to process a frame. A lower value means more processing and greater accuracy, but laggier video.</p>
+        </div>
+        <div id="frameskip_visualizer">
+
         </div>
 
       </div>
@@ -95,7 +116,8 @@
         <div class="split_space">
           <label class="toggle_switch_label">Main Volume</label>
           <div>
-            <input type="range" id="mainVolumeSlider" min="0" max="100" step="1" class="audioSlider custom_slider option">
+            <input type="range" id="mainVolumeSlider" min="0" max="100" step="1"
+              class="audioSlider custom_slider option">
           </div>
 
           <label class="toggle_switch_label">Sound Effect Volume</label>
@@ -120,44 +142,44 @@
       <div class="sub_item">
         <h1 class="heading">Privacy & Security</h1>
         <hr class="accent_line">
-        <div class ="split_space">
+        <div class="split_space">
 
-        <label class = "toggle_switch_label">Record Audio (beta)</label>
-        <label class="toggle_switch">
-          <input id="record_audio" type="checkbox" class="option">
-          <span class="toggle_switch_addon"></span>
-        </label>
+          <label class="toggle_switch_label">Record Audio (beta)</label>
+          <label class="toggle_switch">
+            <input id="record_audio" type="checkbox" class="option">
+            <span class="toggle_switch_addon"></span>
+          </label>
 
-        <label class = "toggle_switch_label">Record Video (beta)</label>
-        <label class="toggle_switch">
-          <input id="record_video" type="checkbox" class="option">
-          <span class="toggle_switch_addon"></span>
-        </label>
+          <label class="toggle_switch_label">Record Video (beta)</label>
+          <label class="toggle_switch">
+            <input id="record_video" type="checkbox" class="option">
+            <span class="toggle_switch_addon"></span>
+          </label>
 
 
-        <label class = "toggle_switch_label">Locally Store User Data (beta)</label>
-        <label class="toggle_switch">
-          <input id="local_storage" type="checkbox">
-          <span class="toggle_switch_addon"></span>
-        </label>
+          <label class="toggle_switch_label">Locally Store User Data (beta)</label>
+          <label class="toggle_switch">
+            <input id="local_storage" type="checkbox">
+            <span class="toggle_switch_addon"></span>
+          </label>
 
-        <label class = "toggle_switch_label">Anonymize Data (beta)</label>
-        <label class="toggle_switch">
-          <input id="anonymize_data" type="checkbox">
-          <span class="toggle_switch_addon"></span>
-        </label>
+          <label class="toggle_switch_label">Anonymize Data (beta)</label>
+          <label class="toggle_switch">
+            <input id="anonymize_data" type="checkbox">
+            <span class="toggle_switch_addon"></span>
+          </label>
+        </div>
+        <div class="reset_div">
+          <button class="reset_button" id="password_delete">Clear Local</button>
+          <button class="reset_button" id="reset_page">Reset Settings</button>
+        </div>
       </div>
-      <div  class = "reset_div">
-      <button class = "reset_button" id = "password_delete">Delete all local passwords</button>
-      <button class = "reset_button" id = "reset_page">Reset settings to default</button>
+      <button class="submit_button" id="submit_button">Submit</button>
     </div>
-      </div>
-        <button class = "submit_button" id = "submit_button">Submit</button>
-    </div>
-    </div>
-    <script src="./settings.js"></script>
-    <link rel="stylesheet" href="../global/contact_us.css" />
-    <script src="../global/contact_us.js"></script>
+  </div>
+  <script src="./settings.js"></script>
+  <link rel="stylesheet" href="../global/contact/contact_us.css" />
+  <script src="../global/contact/contact_us.js"></script>
 
 </body>
 
