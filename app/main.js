@@ -37,8 +37,8 @@ var admin = require("firebase-admin");
 
 
 
-const firebaseConfig = require("./src/firebase/firebaseConfig.json");
-var serviceAccount = require("./src/firebase/firebaseAdmin.json");
+const firebaseConfig = require("./data/firebase/firebaseConfig.json");
+var serviceAccount = require("./data/firebase/firebaseAdmin.json");
 const firestoreConfig = {credential: admin.credential.cert(serviceAccount)};
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
