@@ -3,12 +3,12 @@ async function signIn(email, password) {
   // await firebase.email_sign_in("aadvik.vashist@outlook.com", "password");
   // handle the result
   var val = await firebase.check_user_local();
+
   if (localStorage.getItem("first_name") != null) {
     document.getElementById("welcome").innerHTML = "Welcome back, " + localStorage.getItem("first_name");
     let last_login = await firebase.get_last_login(86400);
     if (last_login){
-    document.getElementById("sign_in").innerHTML =
-        "<a class = 'sign_in_link' href= './login/login.html'> Sign In </a> to Noduro";
+    document.getElementById("sign_in").innerHTML = "<a class = 'sign_in_link' href= './login/login.html'> Sign In </a> to Noduro";
     }
   } else {
     document.getElementById("welcome").innerHTML = "Welcome to Noduro";

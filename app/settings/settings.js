@@ -49,6 +49,8 @@ lessons_folder.addEventListener("click", async function () {
     isPageDirty = true;
     lessons_folder_text.innerHTML = folder;
     localStorage.setItem("lessons_folder", folder);
+    var default_settings_path = localStorage.getItem("settings_folder") + "/default_settings.json"
+    var user_settings_path = localStorage.getItem("settings_folder") + "/user_settings.json";
     // Do something with the selected folder path
 });
 

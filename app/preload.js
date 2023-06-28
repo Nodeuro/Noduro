@@ -3,6 +3,7 @@ let darkmodeVal = localStorage.getItem("darkmode");
 const fs = require("fs");
 const path = require("path");
 const {spawn, exec}  = require('child_process');
+const { auth } = require("google-auth-library");
 // if (require('os').platform() == "win32") var pythonExecutable ="../noduro_python/Scripts/python.exe";
 // else var pythonExecutable = "../noduro_python/bin/python";
 
@@ -44,6 +45,9 @@ contextBridge.exposeInMainWorld("firebase", {
         }
         else{
             var login_string = await ipcRenderer.invoke("firebase:get_last_login", email)
+            if (last_login == null) {
+                return true;
+            }
             var last_login = parseInt(login_string);
             // console.log((Date.now() - last_login)/1000);
             if (Date.now() - last_login > duration*1000) {
@@ -86,8 +90,8 @@ contextBridge.exposeInMainWorld("firebase", {
     email_sign_in: async (email, password) => {
         return await sign_in(email, password,true);
     },
-    google_sign_in: async () => {
-        const user = await ipcRenderer.invoke("firebase:google_sign_in");
+    external_auth: async (auth_provider) => {
+        const user = await ipcRenderer.invoke("firebase:external_auth", auth_provider);
         if (user[0]) {
             localStorage.setItem("email", email);
             console.log("user signed up");

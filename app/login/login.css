@@ -5,6 +5,7 @@
 :root{
     --continue_with_border: #c8c8c8;
     --continue_with_color: #444444;
+    --continue_with_size : calc(30px + 1.25vw);
 }
 @media (prefers-color-scheme: light) {
     :root {
@@ -290,24 +291,26 @@ form i {
     margin-bottom: 0;
 }
 .continue_with {
-    font-size: calc(20px + 0.625vw);
+    font-size: calc(20px + 0.5vw);
     font-weight: 600;
     font-family: 'Roboto', sans-serif;
     text-align: center;
     border-radius: calc(37.5px + 1.25vw);
-    height: calc(37.5px + 1.25vw);
-    width: calc(300px + 9.375vw);
+    height: var(--continue_with_size);
+    width: calc(8 * var(--continue_with_size));
+    /* width: max-content; */
     border: 1px solid var(--continue_with_border);
     background-color: white;
-    padding-left:2%;
+    padding-left:3%;
     padding-right:4%;
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
     color: var(--continue_with_color);
     transition: all 0.2s ease-in-out;
-    
+    white-space: nowrap;
 }
+
 .continue_with:hover{
     transform: scale(1.05, 1.05);
 }
@@ -315,7 +318,7 @@ form i {
     transform: scale(1.15, 1.15);
 }
 .continue_with img{
-    height: 85%;
+    height: calc(25px + 0.5vw);
     aspect-ratio: 1/1;
     align-self: center;
     margin-right: 15px;

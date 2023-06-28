@@ -40,7 +40,10 @@ form.addEventListener('submit', async (event) => {
     }
 });
 
-
+const google_button = document.getElementById('google');
+google_button.addEventListener('click', async (event) => {
+    await firebase.external_auth("github");
+});
 // window.firebase.sign_in("aadvik.vashist@outlook.com", "password");
 
 // function waitForSessionStorage(key) {

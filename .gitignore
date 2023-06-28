@@ -1,6 +1,3 @@
-app/src/firebase/firebaseAdmin.json
-app/src/firebase/firebaseConfig.json
-app/src/settings/user_settings.json
 __pycache__/
 noduro_python/
 app/node_modules/
@@ -8,9 +5,8 @@ python/settings/email.json
 build/
 dist/
 out/
-data/settings/user_settings.json
-data/firebase/firebaseConfig.json
-data/firebase/firebaseAdmin.json
-app/lessons/*.mp4
-app/lessons/Vegetarian Shell/full_res.mp4
-app/lessons/Sautee/test.mp4
+assets/settings/user_settings.json
+assets/firebase/firebaseConfig.json
+assets/firebase/firebaseAdmin.json
+app/assets/lessons/*.mp4
+
