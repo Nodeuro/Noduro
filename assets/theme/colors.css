@@ -1,0 +1,18 @@
+:root {
+	--primary-color: #42966dff;
+    --primary-variant: rgb(129, 185, 193);
+	--secondary-color: #55828bff;
+    --secondary-variant: #364958ff;
+    --background: #f3fff3ff;
+    --background-variant: rgb(197, 213, 197);
+    --surface: #f2ede4;
+    --error: #b00020;
+    --on-primary: #ffffff;
+    --on-secondary: #000000;
+    --on-background: #000000;
+    --on-surface: #000000;
+    --on-error: #000000;
+    --on-minor: #0000007b;
+    --tea-green: #c9e4caff;
+    --cambridge-blue: #87bba2ff;
+}

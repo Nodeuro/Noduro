@@ -1,0 +1,80 @@
+/* Header */
+div.filler{
+    height: calc(10 * var(--vwh));
+    width: 100%;
+    position: relative;
+    background: none;
+    top: 0;
+    left: 0;
+    padding: 10px;
+    box-sizing: border-box;
+}
+header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    height: calc(8 * var(--vwh));
+    max-height: calc(8 * var(--vwh));
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    transition: top ease 2s;
+    user-select: none;
+    /* box-shadow: 0 0 0.5em var(--on-minor); */
+    background-color: var(--background);
+    padding: calc(0.5 * var(--vwh)) calc(1 * var(--vwh));
+    box-sizing: border-box;
+      background: rgba(255, 255, 255, 0.2); /* White background with a bit of opacity */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    backdrop-filter: blur(10px); /* Blurring the background elements */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* A light border */
+}
+
+
+header div.logo{
+    display: grid;
+    position: relative;
+    grid-template-rows: 1fr;
+    grid-template-columns: auto auto;
+    max-height: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    width: fit-content;
+    gap: 10px;
+    align-items: center;
+}
+header h1{
+    margin: 0;
+    font-size: calc(4 * var(--vwh));
+    max-height: 100%;
+}
+header img {
+    width:auto;
+    height: calc(5 * var(--vwh)); /* Adjusts the height automatically */
+    aspect-ratio: 1/1;
+    object-fit: contain;
+}
+
+header .nav{
+    display: flex;
+    flex-flow: row nowrap;
+    gap: calc(2 * var(--vwh));
+    margin-right: calc(2 * var(--vwh));
+}
+
+header .nav button{
+    display: flex;
+    position: relative;
+    background: none;
+    color: var(--on-background);
+    border: 0px;
+    border-radius: var(--vwh);
+    font-size: calc(3 * var(--vwh));
+    font-weight: 600;
+}
+
+/* End Header */
