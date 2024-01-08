@@ -1,0 +1,188 @@
+
+header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: calc(30 * var(--vwh));
+    height: 100vh;
+    background-color: var(--surface);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    /* display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: flex-start; */
+    display: grid;
+    grid-template-rows: 0.1fr 0.3fr 0.3fr 0.3fr  0.15fr;
+    padding: calc(1 * var(--vwh)) ;
+    box-sizing: border-box;
+}
+
+/* The whole logo and icon */
+header div.logo {
+    width: 100%;
+    height: calc(4 * var(--vwh));
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    gap: calc(0.5 * var(--vwh));
+    padding-top: calc(0.5 * var(--vwh));
+    padding-left: calc(0.5 * var(--vwh));
+    box-sizing: border-box;
+}
+header div.logo > h1 {
+    margin: 0;
+    padding: 0;
+    font-size: calc(3 * var(--vwh));
+    font-weight: 700;
+    color: var(--on-surface);
+    text-align: center;
+    /* width: 100%; */
+    box-sizing: border-box;
+    width: fit-content;
+}
+header div.logo  > img {
+    height: calc(3 * var(--vwh));
+    width: calc(3 * var(--vwh));
+    object-fit: contain;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container for each page */
+header div.nav {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: calc(2.5 * var(--vwh));
+    /* padding-top: calc(0.5 * var(--vwh));
+    padding-left: calc(0.5 * var(--vwh)); */
+    box-sizing: border-box;
+    padding-left: calc(1* var(--vwh)); 
+
+}
+
+header div.nav h1.pages {
+    margin: 0;
+    margin-bottom: calc(-1.5 * var(--vwh));
+    padding: 0;
+    font-size: calc(2.25 * var(--vwh));
+    font-weight: 800;
+    color: var(--on-surface);
+    text-align: left;
+    /* width: 100%; */
+    box-sizing: border-box;
+    width: fit-content;
+    position: relative;
+    width: 100%;
+}
+
+header div.nav h1.pages::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 90%;
+    height: 2px;
+    background-color: var(--on-surface);
+}
+
+/* The container for icon and text*/
+header div.nav > a.link{
+    display: flex;
+    position: relative;
+    background: none;
+    color: var(--on-background);
+    border: 0px;
+    gap: calc(0.6 * var(--vwh));
+}
+
+/* Each specific page's icon */
+header div.nav > a.link > img{ 
+    width: calc(3 * var(--vwh));
+    height: calc(3 * var(--vwh));
+}
+
+/* Each specific page's text */
+header div.nav > a.link > button{ 
+    display: flex;
+    position: relative;
+    background: none;
+    color: var(--on-background);
+    border: 0px;
+    border-radius: var(--vwh);
+    font-size: calc(2 * var(--vwh));
+    font-weight: 600;
+    align-self: center
+}
+
+header div.nav.trap{
+    height: fit-content;
+    gap: calc(2 * var(--vwh));
+}
+
+header div.nav a.emphasis{
+    align-self: center;
+    width: 50%;
+    display: flex;
+    position: relative;
+    background: var(--on-surface);
+    border-radius: var(--vwh);
+    color: var(--on-background);
+    border: 0px;
+    gap: calc(0.6 * var(--vwh));
+    padding: calc(1 * var(--vwh)) calc(3 * var(--vwh));
+}
+
+header div.nav a.emphasis img{
+    width: calc(3 * var(--vwh));
+    height: calc(3 * var(--vwh));
+    background: none;
+    color: var(--surface);
+    z-index: 9999;
+}
+header div.nav a.emphasis button{
+    display: flex;
+    position: relative;
+    background: none;
+    color: var(--surface);
+    border: 0px;
+    border-radius: var(--vwh);
+    font-size: calc(2 * var(--vwh));
+    font-weight: 600;
+    align-self: center
+}
+
+
+header div.nav a.emphasis.anti{
+    box-shadow: inset 0 0 0 4px var(--on-background) !important;
+    border-color: var(--primary-color);
+    background: none !important;
+    color: var(--on-background) !important;
+    gap: calc(0.6 * var(--vwh));
+    padding: calc(1 * var(--vwh)) calc(3 * var(--vwh));
+}
+
+header div.nav a.emphasis.anti img{
+    background: none;
+    z-index: 9999;
+}
+header div.nav a.emphasis.anti button{
+    color: var(--on-background) !important;
+    font-weight: 700;
+
+}
+
+header a{
+    transition: all ease-in-out 0.2s;
+}
+header a:hover{
+    transform: scale(1.1);
+}
+header a:active{
+    transform: scale(1.15);
+}
