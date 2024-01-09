@@ -9,19 +9,173 @@ html{
     overflow-x: hidden;
 }
 body {
-
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
 }
+body * {
+    box-sizing: border-box;
 
-.main {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: flex-start;
-	height: 100%;
+}
+.wrapper{
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.double_container {
+	display: grid;
+    position: relative;
+    grid-template-columns: var(--header_width) 1fr;
+    grid-template-rows: var(--header_height) 1fr;
+	height: fit-content;
+    min-height: 100vh;
 	width: 100%;
     padding: 0;
     margin: 0;
+    z-index: 0;
 }
+
+
+
+/* BOXEs */
+
+.boxes_wrapper {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	overflow: visible;
+}
+
+.boxes_wrapper.gradient {
+	background: linear-gradient(180deg, var(--background) 0%, var(--background-variant) 100%);
+}
+
+.boxes {
+	display: flex;
+	flex-flow: row wrap;
+	padding: var(--box_padding);
+	color: var(--text_color);
+	width: calc(var(--box_full_width) + 2 * var(--box_padding));
+	position: relative;
+	overflow: visible;
+	align-items: center;
+	justify-content: center;
+}
+
+.boxes .box {
+	user-select: none;
+	border-radius: var(--vw);
+	margin: var(--box_margin);
+	display: flex;
+	justify-content: center;
+	flex-flow: column nowrap;
+	background: var(--surface);
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+	box-sizing: border-box;
+	padding: var(--vw);
+	overflow: hidden;
+}
+
+.boxes .box.full {
+	width: 100%;
+}
+
+.widget-container {
+	display: grid;
+	grid-template-columns: repeat(var(--column-count), 1fr);
+	gap: var(--gap); /* Adjust to your needs */
+	padding: 10px;
+	width: 90%;
+    margin: 0 5%;
+	grid-auto-rows: var(--height); /* Adjust to your needs */
+	--gap: calc(4 * var(--vwh));
+	--column-count: 3;
+	--height: 20vw;
+	box-sizing: border-box;
+}
+
+
+.widget {
+	position: relative;
+	background: var(--surface);
+	border-radius: 15px;
+	padding: calc(0.1 * var(--height));
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+	box-sizing: border-box;
+	height: 100%; /* Height for square */
+}
+
+/* Widget aspect ratios based on viewport width */
+.size-1x1 {
+	grid-row: span 1;
+	grid-column: span 1;
+}
+.size-1x2 {
+	grid-row: span 1;
+	grid-column: span 2;
+}
+.size-1x3 {
+	grid-row: span 1;
+	grid-column: span 3;
+}
+
+.size-2x1 {
+	grid-row: span 2;
+	grid-column: span 1;
+}
+.size-2x2 {
+	grid-row: span 2;
+	grid-column: span 2;
+}
+.size-2x3 {
+	grid-row: span 2;
+	grid-column: span 3;
+}
+
+.size-3x1 {
+	grid-row: span 3;
+	grid-column: span 1;
+}
+.size-3x2 {
+	grid-row: span 3;
+	grid-column: span 2;
+}
+
+.size-3x3 {
+	grid-row: span 3;
+	grid-column: span 3;
+}
+
+
+
+
+.widget-container.fit {
+	grid-auto-rows: 1fr !important; /* Adjust to your needs */
+  height:fit-content
+}
+/* .widget-container .widget{
+  height:fit-content;
+} */
+
+.widget-container.square {
+	grid-auto-rows: 1fr !important; /* Adjust to your needs */
+}
+.widget-container.square::before {
+	content: none;
+}
+.widget-container.square .widget.size-1x1 {
+	aspect-ratio: 1 / 1;
+}
+
+

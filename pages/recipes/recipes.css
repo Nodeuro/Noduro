@@ -1,0 +1,86 @@
+.main_container{
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+}
+
+
+#welcome_div{
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    /* background: var(--background-variant); */
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    flex-direction: column;
+    position: relative;
+    padding: calc(3*var(--vwh));
+    overflow: hidden;
+
+}
+
+#welcome_div video{
+    position: absolute;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    filter: blur(10px);
+}
+#welcome_div img{
+    position: absolute;
+    z-index: 0;
+    top: -5%;
+    left: -5%;
+    width: 110%;
+    height: 110%;
+    object-fit: cover;
+    opacity: 0.8;
+    filter: blur(10px);
+    
+}
+#welcome_div h1{
+    font-size: calc(14*var(--vwh));
+    opacity: 1;
+    z-index: 1;
+    font-weight: 600;
+    margin: 0;
+
+}
+#welcome_div p{
+    font-size: calc(6*var(--vwh));
+    opacity: 1;
+    z-index: 1;
+    font-weight: 600;
+    margin: 0;
+}
+
+#welcome_div .sign_in .sign_in_link{
+    text-decoration: underline 0.1em rgba(0,0,0,0);
+    transition: all ease 400ms;
+    /* text-decoration-color: var(--primary-color); */
+
+
+}   
+#welcome_div .sign_in:hover .sign_in_link{
+  text-decoration-color: var(--primary-color) !important;
+}
+
+
+
+
+
+.boxes{
+    margin: 0 calc(10*var(--vwh)) calc(10*var(--vwh));
+    width: calc(100% - 20*var(--vwh)) ;
+    height: fit-content;
+    background-color: var(--surface);
+    display: flex;
+    border-radius: calc(4*var(--vwh));
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    flex-flow: column nowrap;
+    padding: calc(2*var(--vwh));
+}

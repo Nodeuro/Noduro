@@ -106,7 +106,7 @@ const createWindow = () => {
 		mainWindow.show();
 	});
 	systemThemeCommunicator();
-	mainWindow.loadFile('index.html');
+	mainWindow.loadFile('pages/home/index.html');
 
 	
 	ipcMain.handle('noduro:folder_picker', async (event) => {

@@ -1,12 +1,14 @@
 
+:root{
+    --header_width: calc(30 * var(--vwh));
+}
 header {
     position: fixed;
     left: 0;
     top: 0;
-    width: calc(30 * var(--vwh));
+    width: var(--header_width);
     height: 100vh;
-    background-color: var(--surface);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
     /* display: flex;
     flex-flow: column nowrap;
     align-items: center;
@@ -15,6 +17,20 @@ header {
     grid-template-rows: 0.1fr 0.3fr 0.3fr 0.3fr  0.15fr;
     padding: calc(1 * var(--vwh)) ;
     box-sizing: border-box;
+    z-index: 9999;
+}
+header::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--surface);
+    z-index: -1;
+    opacity: 0.2;
+    filter: blur(2px) brightness(0.8);
+
 }
 
 /* The whole logo and icon */
@@ -89,6 +105,7 @@ header div.nav h1.pages::after {
     width: 90%;
     height: 2px;
     background-color: var(--on-surface);
+    opacity: 0.1;
 }
 
 /* The container for icon and text*/
@@ -99,12 +116,15 @@ header div.nav > a.link{
     color: var(--on-background);
     border: 0px;
     gap: calc(0.6 * var(--vwh));
+    text-decoration: none;
 }
 
 /* Each specific page's icon */
 header div.nav > a.link > img{ 
     width: calc(3 * var(--vwh));
     height: calc(3 * var(--vwh));
+    text-decoration: none;
+
 }
 
 /* Each specific page's text */
@@ -117,7 +137,8 @@ header div.nav > a.link > button{
     border-radius: var(--vwh);
     font-size: calc(2 * var(--vwh));
     font-weight: 600;
-    align-self: center
+    align-self: center;
+    text-decoration: none;
 }
 
 header div.nav.trap{
@@ -127,8 +148,9 @@ header div.nav.trap{
 
 header div.nav a.emphasis{
     align-self: center;
-    width: 50%;
+    width: 70%;
     display: flex;
+    justify-content: space-between;
     position: relative;
     background: var(--on-surface);
     border-radius: var(--vwh);
@@ -136,6 +158,9 @@ header div.nav a.emphasis{
     border: 0px;
     gap: calc(0.6 * var(--vwh));
     padding: calc(1 * var(--vwh)) calc(3 * var(--vwh));
+    white-space: nowrap;
+    text-decoration: none;
+
 }
 
 header div.nav a.emphasis img{
@@ -177,12 +202,30 @@ header div.nav a.emphasis.anti button{
 
 }
 
+
+header div.nav h1{
+    transition: all ease-in-out 0.4s;
+}
+header div.nav:hover h1{
+    transform : scale(1.04);
+    font-size: calc(2.4 * var(--vwh));
+}
+
 header a{
     transition: all ease-in-out 0.2s;
 }
 header a:hover{
-    transform: scale(1.1);
+    transform: scale(1.15);
 }
 header a:active{
-    transform: scale(1.15);
+    transform: scale(1.2);
+}
+
+
+
+div.filler{
+    width: var(--header_width);
+    height: 100%;
+    position: relative;
+    pointer-events: none;
 }
